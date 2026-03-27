@@ -131,9 +131,9 @@ EOL
 [[ -f ".env" ]] && source .env set
 set +o allexport
 
-_DEFAULT_SOURCE_BRANCH="main"
-_DEFAULT_TARGET_BRANCH="prod"
-_DEFAULT_DEVELOPMENT_BRANCH="main"
+_DEFAULT_SOURCE_BRANCH="dev"
+_DEFAULT_TARGET_BRANCH="main"
+_DEFAULT_DEVELOPMENT_BRANCH="dev"
 _DEFAULT_SUCCESSFUL_TEXT=""
 
 : "${RELEASE_SOURCE_BRANCH:=${SOURCE_BRANCH:=$_DEFAULT_SOURCE_BRANCH}}"
@@ -570,7 +570,7 @@ function validate::no_diff_between_local_and_origin() {
   local force_release=$3
 
   # Check the status of the local branch compared to origin/main
-  ahead_commits=$(git rev-list --count HEAD ^origin/main)
+  ahead_commits=$(git rev-list --count HEAD ^origin/"$source")
 
   if [[ "$ahead_commits" -gt 0 && "$force_release" == false ]]; then
     echo -e "${COLOR_RED}Error: Your $source is ahead of 'origin/$source'" \

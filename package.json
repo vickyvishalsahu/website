@@ -9,7 +9,7 @@
     "lint": "eslint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "release": "./release main"
+    "release": "./release dev"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",
