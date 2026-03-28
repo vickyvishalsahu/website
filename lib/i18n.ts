@@ -8,9 +8,8 @@ export const t = {
   nav: {
     links: [
       { href: "/", label: "Home" },
-      { href: "/projects", label: "Projects" },
       { href: "/blog", label: "Blog" },
-      { href: "/contact", label: "Contact" },
+      { href: "/about", label: "About" },
     ],
   },
   home: {
