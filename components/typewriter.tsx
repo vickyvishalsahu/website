@@ -87,7 +87,7 @@ export function Typewriter({
   return (
     <span className={`relative block ${className ?? ""}`}>
       <span className="invisible" aria-hidden="true">{longest}</span>
-      <span className="absolute inset-x-0 top-0 text-center">
+      <span className="absolute left-0 top-0">
         {current.slice(0, charIndex)}
         {!done && <span className="animate-blink">|</span>}
       </span>

@@ -1,7 +1,14 @@
+import Image from "next/image";
+
 export function PhotoPlaceholder() {
   return (
-    <div className="flex aspect-[3/4] w-full max-w-xs items-center justify-center rounded-2xl border border-zinc-200 bg-zinc-100">
-      <span className="text-6xl font-semibold text-zinc-300">V</span>
-    </div>
+    <Image
+      src="/vicky_dp.png"
+      alt="Vicky"
+      width={320}
+      height={320}
+      priority
+      className="rounded-full object-cover"
+    />
   );
 }
