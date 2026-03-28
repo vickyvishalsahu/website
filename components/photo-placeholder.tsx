@@ -5,10 +5,10 @@ export function PhotoPlaceholder() {
     <Image
       src="/vicky_dp.png"
       alt="Vicky"
-      width={320}
-      height={320}
+      width={224}
+      height={224}
       priority
-      className="rounded-full object-cover"
+      className="h-56 w-56 rounded-full object-cover"
     />
   );
 }

@@ -5,28 +5,34 @@ import { PhotoPlaceholder } from "@/components/photo-placeholder";
 
 export function Hero() {
   return (
-    <section className="grid min-h-[calc(100dvh-4rem)] grid-cols-1 items-center gap-12 md:grid-cols-[3fr_2fr]">
-      <div className="order-last flex flex-col md:order-first">
-        <h1 className="text-5xl font-bold tracking-tight sm:text-6xl">
+    <section className="flex items-center justify-between gap-16 pt-16 pb-24 sm:pt-24 sm:pb-32">
+      <div className="max-w-xl">
+        <h1 className="mb-2 text-5xl font-medium tracking-tight text-zinc-900">
           {t.home.greeting} {t.home.name}.
         </h1>
         <Typewriter
           texts={t.home.taglines}
-          className="mt-4 text-2xl font-medium text-zinc-500 sm:text-3xl"
+          className="mb-6 text-xl font-medium text-zinc-500"
         />
-        <p className="mt-6 text-lg leading-relaxed text-zinc-600">
+        <p className="mb-8 text-base leading-relaxed text-zinc-600">
           {t.home.description}
         </p>
-        <div className="mt-8">
+        <div className="flex gap-4">
           <Link
             href="/projects"
             className="rounded-full bg-zinc-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-zinc-700"
           >
             {t.home.viewWork}
           </Link>
+          <Link
+            href="/contact"
+            className="rounded-full border border-zinc-300 px-6 py-3 text-sm font-medium transition-colors hover:bg-zinc-50"
+          >
+            {t.home.getInTouch}
+          </Link>
         </div>
       </div>
-      <div className="order-first flex items-center justify-center md:order-last">
+      <div className="hidden shrink-0 self-center md:flex">
         <PhotoPlaceholder />
       </div>
     </section>
