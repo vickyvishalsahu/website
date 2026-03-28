@@ -16,8 +16,15 @@ export const t = {
   home: {
     greeting: "Hi, I'm",
     name: "Vicky",
-    tagline:
-      "A developer who builds clean, performant web experiences. I care about good design, accessible interfaces, and writing code that lasts.",
+    taglines: [
+      "I build scalable frontend systems.",
+      "I collaborate across design, product, and engineering.",
+      "I bring AI into the product, not just the hype.",
+      "I lead with code, not just opinions.",
+      "I make frontend a competitive advantage.",
+    ],
+    description:
+      "I'm Vicky, a Senior Software Developer based in Berlin. I specialise in React and TypeScript — building interfaces that are fast, clean, and actually enjoyable to use. I've shipped products across e-commerce, proptech, and developer tooling, and I work best when design, backend, and product are all in the same room. These days I'm also deep into AI-assisted development — using it to move faster without losing quality.",
     viewWork: "View Work",
     getInTouch: "Get in Touch",
     aboutTitle: "About",

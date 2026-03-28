@@ -11,6 +11,14 @@ Analyze all current changes and create a well-crafted conventional commit.
 
 When this command is run:
 
+### Phase 0: Branch Guard
+
+1. Run `git branch --show-current` to check the current branch
+2. If the current branch is `main`:
+   - **STOP** — do not commit
+   - Warn the user: "You're on `main`. All work should be committed to `dev`. Switch with `git checkout dev` first."
+   - Do not proceed to Phase 1
+
 ### Phase 1: Analyze Changes
 
 1. **Gather context** (run in parallel):
