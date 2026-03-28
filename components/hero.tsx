@@ -4,7 +4,7 @@ import { Typewriter } from "@/components/typewriter";
 
 export function Hero() {
   return (
-    <section className="py-24 sm:py-32">
+    <section className="py-24 sm:py-32 flex flex-col">
       <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
         {t.home.greeting} {t.home.name}.
       </h1>
@@ -12,7 +12,7 @@ export function Hero() {
         texts={t.home.taglines}
         className="mt-2 block text-2xl font-medium text-zinc-500 sm:text-3xl"
       />
-      <p className="mt-4 max-w-lg text-lg leading-relaxed text-zinc-600">
+      <p className="mt-4 text-lg leading-relaxed text-zinc-600">
         {t.home.description}
       </p>
       <div className="mt-8 flex gap-4">
