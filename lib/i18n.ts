@@ -28,8 +28,12 @@ export const t = {
     viewWork: "View Work",
     getInTouch: "Get in Touch",
     aboutTitle: "About",
-    aboutText:
-      "I'm a full-stack developer with a passion for building products that are both functional and beautiful. I enjoy working across the stack, from crafting pixel-perfect UIs to designing robust APIs and databases. When I'm not coding, you'll find me exploring new technologies, writing about what I learn, or contributing to open source.",
+    aboutText: [
+      "10 years in, and the part I still enjoy most is the moment something clicks — when a feature feels right, the code is clean, and the team is proud of what shipped.",
+      "I've worked across startups and scaleups in Berlin and beyond — HeyCar, Myntra, Aliru, Purpose Green. Frontend is home, but I'm comfortable enough across the stack to understand the full picture and have the right conversations.",
+      "Lately I've gone deep on AI-assisted development. Claude Code in the terminal, agents in the codebase, LLMs as a thinking partner. It's changed how I work — I ship faster, think more clearly, and hold a higher bar.",
+      "I'm currently open to new opportunities — Senior Software Developer or a lead-flavoured role, in Berlin or remote.",
+    ],
     techTitle: "Tech I work with",
     stack: ["TypeScript", "React", "Next.js", "Node.js", "Tailwind CSS", "PostgreSQL"],
   },
