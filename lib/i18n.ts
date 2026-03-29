@@ -16,11 +16,10 @@ export const t = {
     greeting: "Hi, I'm",
     name: "Vicky",
     taglines: [
-      "I build scalable frontend systems.",
-      "I collaborate across design, product, and engineering.",
-      "I bring AI into the product, not just the hype.",
-      "I lead with code, not just opinions.",
-      "I make frontend a competitive advantage.",
+      "I write and own the code that ships, not the code that demos.",
+      "I care about why we're building it, not just how.",
+      "I build in steps small enough to reverse.",
+      "Collaboration is my favourite part of the job.",
     ],
     description:
       "I'm Vicky, a Senior Software Developer based in Berlin. I specialise in React and TypeScript — building interfaces that are fast, clean, and actually enjoyable to use. I've shipped products across e-commerce, proptech, and developer tooling, and I work best when design, backend, and product are all in the same room. These days I'm also deep into AI-assisted development — using it to move faster without losing quality.",
@@ -92,7 +91,18 @@ export const t = {
       },
     ],
     skills: {
-      frontend: ["React", "Next.js", "TypeScript", "Vue", "Angular", "Redux", "Zustand", "Tailwind CSS", "Material UI", "Storybook"],
+      frontend: [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Vue",
+        "Angular",
+        "Redux",
+        "Zustand",
+        "Tailwind CSS",
+        "Material UI",
+        "Storybook",
+      ],
       backend: ["Node.js", "Express", "Kotlin", "GraphQL", "MongoDB", "MySQL", "Flask"],
       tools: ["Vercel", "AWS", "Azure", "CircleCI", "Webpack", "Zod", "React Native"],
     },
@@ -110,11 +120,6 @@ export const t = {
     ],
     cvLink: "/cv.pdf",
     cvLabel: "Download CV",
-  },
-  projects: {
-    title: "Projects",
-    description: "A selection of projects I've worked on",
-    subtitle: "A selection of things I've built.",
   },
   blog: {
     title: "Blog",

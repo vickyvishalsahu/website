@@ -5,34 +5,41 @@ export function About() {
     <div className="mx-auto max-w-4xl px-6 py-16">
       <h1 className="text-3xl font-semibold tracking-tight">{t.about.title}</h1>
 
-      {/* Intro */}
+
       <p className="mt-6 max-w-2xl leading-relaxed text-zinc-600">
         {t.about.intro}
       </p>
 
-      {/* Experience */}
+
       <section className="mt-12 border-t border-zinc-200 pt-10">
         <h2 className="text-lg font-semibold tracking-tight">Experience</h2>
         <div className="mt-6 space-y-8">
           {t.about.experience.map((job) => (
             <div key={job.company} className="relative border-l-2 border-zinc-200 pl-6">
               <div className="absolute -left-[5px] top-1.5 h-2 w-2 rounded-full bg-zinc-400" />
-              <div className="flex flex-wrap items-baseline gap-x-2">
-                <span className="font-medium text-zinc-900">{job.company}</span>
-                <span className="text-sm text-zinc-500">{job.role}</span>
+              <div className="flex gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-zinc-100 text-sm font-semibold text-zinc-500">
+                  {job.company[0]}
+                </div>
+                <div>
+                  <div className="flex flex-wrap items-baseline gap-x-2">
+                    <span className="font-medium text-zinc-900">{job.company}</span>
+                    <span className="text-sm text-zinc-500">{job.role}</span>
+                  </div>
+                  <div className="mt-0.5 text-sm text-zinc-400">
+                    {job.location} · {job.period}
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+                    {job.summary}
+                  </p>
+                </div>
               </div>
-              <div className="mt-0.5 text-sm text-zinc-400">
-                {job.location} · {job.period}
-              </div>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-600">
-                {job.summary}
-              </p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Skills */}
+
       <section className="mt-12 border-t border-zinc-200 pt-10">
         <h2 className="text-lg font-semibold tracking-tight">Skills</h2>
         <div className="mt-6 space-y-4">

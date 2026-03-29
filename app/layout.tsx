@@ -21,6 +21,10 @@ export const metadata: Metadata = {
     template: t.site.titleTemplate,
   },
   description: t.site.description,
+  icons: {
+    icon: "/vicky_dp.png",
+    apple: "/vicky_dp.png",
+  },
 };
 
 export default function RootLayout({
