@@ -667,10 +667,10 @@ export RELEASE_SOURCE_BRANCH
 export RELEASE_TARGET_BRANCH
 export RELEASE_DEVELOPMENT_BRANCH
 
+# Always return to dev branch on exit (success or failure)
+trap 'git checkout dev 2>/dev/null || true' EXIT
+
 main::action "$FORCE_DEPLOY"
 
 echo -e "${COLOR_GREEN}Script completed${COLOR_RESET}"
 env::render_successful_text
-
-# Always return to dev branch
-git checkout dev 2>/dev/null || true
