@@ -34,7 +34,7 @@ export const t = {
       "I'm currently open to new opportunities — Senior Software Developer or a lead-flavoured role, in Berlin or remote.",
     ],
     techTitle: "Tech I work with",
-    stack: ["TypeScript", "React", "Next.js", "Node.js", "Tailwind CSS", "PostgreSQL"],
+    stack: ["TypeScript", "React", "Next", "NodeJS", "Tailwind CSS", "PostgreSQL"],
   },
   about: {
     title: "About",
@@ -100,18 +100,18 @@ export const t = {
     skills: {
       frontend: [
         "React",
-        "Next.js",
+        "Next",
         "TypeScript",
         "Vue",
-        "Angular",
-        "Redux",
+        "Zustand",
         "Zustand",
         "Tailwind CSS",
         "Material UI",
         "Storybook",
+        "Zod"
       ],
-      backend: ["Node.js", "Express", "Kotlin", "GraphQL", "MongoDB", "MySQL", "Flask"],
-      tools: ["Vercel", "AWS", "Azure", "CircleCI", "Webpack", "Zod", "React Native"],
+      backend: ["NodeJS", "Express", "Kotlin", "GraphQL", "MongoDB", "MySQL", "Flask"],
+      tools: ["Vercel", "AWS", "CircleCI", "Webpack", "Kentico CMS", "Pendo Analytics"],
     },
     education: [
       {
