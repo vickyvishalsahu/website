@@ -15,7 +15,7 @@ export default function BlogPage() {
   const rest = posts.filter((p) => !p.pinned);
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-16">
+    <div className="mx-auto max-w-4xl px-6 py-16">
       <h1 className="text-3xl font-bold tracking-tight">{t.blog.title}</h1>
       <p className="mt-2 text-zinc-600">{t.blog.subtitle}</p>
       <div className="mt-10 flex flex-col gap-4">

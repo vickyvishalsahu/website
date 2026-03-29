@@ -28,7 +28,7 @@ export default async function BlogPostPage({ params }: Props) {
   if (!post) notFound();
 
   return (
-    <article className="mx-auto max-w-5xl px-6 py-16">
+    <article className="mx-auto max-w-4xl px-6 py-16">
       <header>
         <time className="text-sm text-zinc-500">
           {new Date(post.meta.date).toLocaleDateString("en-US", {

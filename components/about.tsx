@@ -3,7 +3,7 @@ import { t } from "@/lib/i18n";
 
 export function About() {
   return (
-    <div className="mx-auto max-w-5xl px-6 py-16">
+    <div className="mx-auto max-w-4xl px-6 py-16">
       <h1 className="text-3xl font-semibold tracking-tight">{t.about.title}</h1>
 
 
