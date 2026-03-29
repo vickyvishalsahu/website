@@ -10,6 +10,10 @@ export interface PostMeta {
   description: string;
   tags: string[];
   slug: string;
+  pinned: boolean;
+  highlight: string;
+  readingTime: number;
+  mediumUrl: string;
 }
 
 export function getAllPosts(): PostMeta[] {
@@ -20,7 +24,7 @@ export function getAllPosts(): PostMeta[] {
   const posts = files.map((file) => {
     const slug = file.replace(/\.mdx$/, "");
     const raw = fs.readFileSync(path.join(contentDir, file), "utf-8");
-    const { data } = matter(raw);
+    const { data, content } = matter(raw);
 
     return {
       title: data.title ?? slug,
@@ -28,6 +32,10 @@ export function getAllPosts(): PostMeta[] {
       description: data.description ?? "",
       tags: data.tags ?? [],
       slug,
+      pinned: data.pinned === true,
+      highlight: data.highlight ?? "",
+      readingTime: Math.ceil(content.split(/\s+/).length / 200),
+      mediumUrl: data.mediumUrl ?? "",
     };
   });
 
@@ -48,6 +56,10 @@ export function getPostBySlug(slug: string) {
       description: data.description ?? "",
       tags: data.tags ?? [],
       slug,
+      pinned: data.pinned === true,
+      highlight: data.highlight ?? "",
+      readingTime: Math.ceil(content.split(/\s+/).length / 200),
+      mediumUrl: data.mediumUrl ?? "",
     },
     content,
   };

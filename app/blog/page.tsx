@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getAllPosts } from "@/lib/mdx";
 import { BlogCard } from "@/components/blog-card";
+import { PinnedBlogCard } from "@/components/pinned-blog-card";
 import { t } from "@/lib/i18n";
 
 export const metadata: Metadata = {
@@ -10,6 +11,8 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   const posts = getAllPosts();
+  const pinned = posts.filter((p) => p.pinned);
+  const rest = posts.filter((p) => !p.pinned);
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
@@ -19,7 +22,14 @@ export default function BlogPage() {
         {posts.length === 0 ? (
           <p className="text-zinc-500">{t.blog.emptyState}</p>
         ) : (
-          posts.map((post) => <BlogCard key={post.slug} post={post} />)
+          <>
+            {pinned.map((post) => (
+              <PinnedBlogCard key={post.slug} post={post} />
+            ))}
+            {rest.map((post) => (
+              <BlogCard key={post.slug} post={post} />
+            ))}
+          </>
         )}
       </div>
     </div>

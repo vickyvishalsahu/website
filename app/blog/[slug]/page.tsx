@@ -59,6 +59,19 @@ export default async function BlogPostPage({ params }: Props) {
           }}
         />
       </div>
+      {post.meta.mediumUrl && (
+        <div className="mt-10 border-t border-zinc-200 pt-6">
+          <a
+            href={post.meta.mediumUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-zinc-500 transition-colors hover:text-zinc-900"
+          >
+            <span className="text-lg" aria-hidden="true">👏</span>
+            <span>Clap on Medium</span>
+          </a>
+        </div>
+      )}
     </article>
   );
 }

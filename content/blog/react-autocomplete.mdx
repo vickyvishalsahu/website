@@ -1,0 +1,226 @@
+---
+title: "How to build a simple Autocomplete with React"
+date: "2024-04-22"
+description: "A step-by-step guide to building an autocomplete component with React — covering the server, client, caching, debouncing, and keyboard navigation."
+tags: ["react", "tutorial", "UI"]
+mediumUrl: "https://medium.com/@vickyvishal/how-to-build-a-simple-autocomplete-with-react-6d84240af18e"
+---
+
+Autocomplete by definition is a feature that enables users to quickly find and select from a pre-populated list of values as they type, leveraging searching and filtering.
+
+## History
+
+It is a go-to feature when the user is trying to find a plethora of data. The scenario is, that a user types into an input, and the autocomplete "completes" their thought by providing full terms or results: this is the very base of an autocomplete experience.
+
+The most popular place where it is so well leveraged is in Search Engines. Although it was introduced as late as 2004 by Google, they have taken this concept and polished it and set some industrial standards of how to build it in your product.
+
+## View
+
+We will be building a simple autocomplete UI. It fetches a list of fruits from an API based on the term as we type in the input. When a string is typed we call the API and pass the query to send us the list.
+
+## Architecture
+
+We have the view which has 2 UI elements:
+
+1. **Input UI**
+2. **Result List UI**
+
+We also have a **controller** that queries from the cache and server. Finally, the **server** calculates and returns the result based on the query.
+
+## Code
+
+### Server
+
+We create a backend server with ExpressJs — allow CORS, add a GET API to serve the list, and filter based on the query.
+
+```typescript
+const itemList = [
+  { id: 1, name: "Apple", emoji: "🍎" },
+  { id: 2, name: "Banana", emoji: "🍌" },
+  { id: 3, name: "Orange", emoji: "🍊" },
+  { id: 4, name: "Grapes", emoji: "🍇" },
+  { id: 5, name: "Strawberry", emoji: "🍓" },
+  { id: 6, name: "Watermelon", emoji: "🍉" },
+  { id: 7, name: "Pineapple", emoji: "🍍" },
+  { id: 8, name: "Mango", emoji: "🥭" },
+  { id: 9, name: "Peach", emoji: "🍑" },
+  { id: 10, name: "Kiwi", emoji: "🥝" },
+  { id: 11, name: "Blueberry", emoji: "🫐" },
+  { id: 12, name: "Raspberry", emoji: "🍇" },
+  { id: 13, name: "Blackberry", emoji: "🫐" },
+  { id: 14, name: "Cherry", emoji: "🍒" },
+  { id: 15, name: "Plum", emoji: "🍑" },
+  { id: 16, name: "Apricot", emoji: "🍑" },
+  { id: 17, name: "Pear", emoji: "🍐" },
+  { id: 18, name: "Lemon", emoji: "🍋" },
+  { id: 19, name: "Lime", emoji: "🍈" },
+  { id: 20, name: "Coconut", emoji: "🥥" },
+];
+
+app.get("/api/items", (req, res) => {
+  if (req.query?.searchTerm) {
+    const searchTerm = req.query?.searchTerm.toLowerCase();
+    const filteredItems = itemList.filter((item) =>
+      item.name.toLowerCase().includes(searchTerm)
+    );
+    res.json(filteredItems);
+  }
+});
+```
+
+### Client
+
+We create a simple React app with three pieces: a presentational `AutoComplete` component, a `ResultList` component, and a `useFruits` hook as the controller.
+
+#### `<AutoComplete />`
+
+```tsx
+export default function AutoComplete() {
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [activeIndex, setActiveIndex] = React.useState(-1);
+
+  const { fruits, loading } = useFruits(
+    "http://localhost:3000/api/items",
+    searchTerm
+  );
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSelect = (fruit: IFruit) => {
+    setSearchTerm(fruit.name);
+  };
+
+  const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "ArrowDown") {
+      setActiveIndex((prev) => (prev + 1) % fruits.length);
+    }
+    if (event.key === "ArrowUp") {
+      setActiveIndex((prev) => (prev - 1 + fruits.length) % fruits.length);
+    }
+    if (event.key === "Enter") {
+      setSearchTerm(fruits[activeIndex].name);
+    }
+  };
+
+  return (
+    <AutoCompleteContainer>
+      <Input
+        onChange={handleChange}
+        onKeyDown={onKeyDown}
+        value={searchTerm}
+        placeholder="Search Your Fruits"
+      />
+      {searchTerm ? (
+        <ResultContainer>
+          <ResultList
+            results={fruits}
+            searchTerm={searchTerm}
+            loading={loading}
+            handleSelect={handleSelect}
+            activeIndex={activeIndex}
+          />
+        </ResultContainer>
+      ) : (
+        <HelperText>Start typing to search</HelperText>
+      )}
+    </AutoCompleteContainer>
+  );
+}
+```
+
+As a presentational component, it receives data from the `useFruits` hook. It has a controlled input that allows the users to type and get the value from a single source of truth (the `searchTerm` state). It also supports keyboard navigation with arrow keys and enter.
+
+#### `<ResultList />`
+
+```tsx
+export default function ResultList({
+  results,
+  searchTerm,
+  loading,
+  handleSelect,
+  activeIndex,
+}: ResultListProps): JSX.Element {
+  const matchedTerm = (name: string, searchTerm: string) => {
+    const index = name.toLowerCase().indexOf(searchTerm.toLowerCase());
+    if (index === -1) {
+      return name;
+    }
+    return (
+      <>
+        {name.substring(0, index)}
+        <b>{name.substring(index, index + searchTerm.length)}</b>
+        {name.substring(index + searchTerm.length)}
+      </>
+    );
+  };
+
+  if (loading) return <List>Loading...</List>;
+  if (results.length === 0) return <List>No results found</List>;
+
+  return (
+    <List>
+      {results.map((result, index) => (
+        <ListItem
+          key={result.id}
+          onClick={() => handleSelect(result)}
+          className={activeIndex === index ? "active" : ""}
+        >
+          {matchedTerm(result.name, searchTerm)} <span>{result.emoji}</span>
+        </ListItem>
+      ))}
+    </List>
+  );
+}
+```
+
+This component displays the results in a list. The `matchedTerm` function highlights the exact match in each result — a nice UX touch. It also handles loading and empty states.
+
+#### `useFruits` hook
+
+```typescript
+export default function useFruits(url: string, searchTerm?: string) {
+  const [fruits, setFruits] = React.useState<IFruit[]>([]);
+  const [loading, setLoading] = React.useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    if (!searchTerm) {
+      setLoading(false);
+      return setFruits([]);
+    }
+
+    const cachedData = sessionStorage.getItem(`fruits_${searchTerm}`);
+    if (cachedData) {
+      setFruits(JSON.parse(cachedData));
+      setLoading(false);
+      return;
+    }
+
+    const getFruits = setTimeout(async () => {
+      try {
+        const response = await fetch(url + `?searchTerm=${searchTerm}`);
+        const data = await response.json();
+        setFruits(data);
+        setLoading(false);
+        sessionStorage.setItem(`fruits_${searchTerm}`, JSON.stringify(data));
+      } catch (error) {
+        console.error(error);
+      }
+    }, 300);
+
+    return () => clearTimeout(getFruits);
+  }, [url, searchTerm]);
+
+  return { fruits, loading };
+}
+```
+
+This hook acts as the controller. It checks cached data first and skips the fetch if we already have results. Otherwise it fetches with the `searchTerm` as a query parameter. The 300ms timeout acts as a debounce — it waits for the user to stop typing before making the request, which improves performance.
+
+---
+
+This covers the basic features of a standard autocomplete UI. It's well maintainable, well structured, uses well-known software patterns, and most importantly takes care of performance.
+
+Thank you for reading and never stop learning :)

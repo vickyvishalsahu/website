@@ -1,0 +1,236 @@
+---
+title: "Creating a simple full-stack application with monorepo using pnpm, React, Express, and Docker"
+date: "2024-05-07"
+description: "A walkthrough of building a full-stack monorepo with pnpm workspaces, React, Express, and Docker — from setup to running everything with a single command."
+tags: ["monorepo", "docker", "react", "node.js"]
+mediumUrl: "https://medium.com/stackademic/creating-a-simple-full-stack-application-with-monorepo-using-pnpm-react-express-and-docker-6346c08f8188"
+---
+
+A monorepo is a version-controlled code repository that holds many projects. While these projects may be related, they are often logically independent and run by different teams. Some companies host all their code in a single repository, shared among everyone. Monorepos can reach colossal sizes.
+
+I have found this kind of software development strategy quite appealing. It removes barriers and silos between teams, making it easier to design and maintain sets of microservices that work well together.
+
+Before we start let's have a basic understanding of what we'll be dealing with here:
+
+- In a standard project, we depend on external dependencies used across the project.
+- These dependencies will have multiple copies if multiple projects depend on them.
+- If multiple packages complement each other, abstraction might not be the best approach.
+- Running several apps in a single command is such a joy to show to the stakeholders.
+
+In this article, I will build a full-stack application with pnpm workspace, React in the frontend, and ExpressJS in the backend.
+
+## pnpm workspace
+
+Create a pnpm workspace in the root folder:
+
+```bash
+pnpm init
+mkdir packages
+touch pnpm-workspace.yaml
+```
+
+Let pnpm know that our packages are part of the workspace:
+
+```yaml
+# pnpm-workspace.yaml
+packages:
+  - 'packages/*'
+```
+
+Create a `docker-compose.yml` file in the root directory — we'll come back to it later.
+
+## Client
+
+Set up a React project using Vite. Provide the name of the project as `client` — the name is important because that's how pnpm will detect this package.
+
+```bash
+pnpm create vite
+cd client
+pnpm install
+pnpm run dev
+```
+
+## Server
+
+Set up an Express application inside the `packages` folder:
+
+```bash
+mkdir server
+cd server
+npm init
+npm install express
+```
+
+Excellent — we're more than halfway through! Congratulations on building a full-stack app already (a bit of connection needed though, from client to server).
+
+## Server + Client
+
+Create an `index.js` on the server to serve some data at `http://localhost:3000`:
+
+```javascript
+const express = require("express");
+const app = express();
+const PORT = 3000;
+
+app.get("/", (req, res) => {
+  res.json([
+    { name: "John", age: 25 },
+    { name: "Jane", age: 30 },
+    { name: "Bob", age: 35 },
+  ]);
+});
+
+app.listen(PORT, () => {
+  console.log(`I am doing great and serving at ${PORT}`);
+});
+```
+
+Add a start script in `package.json`:
+
+```json
+"scripts": {
+  "dev": "node index.js"
+}
+```
+
+Now in the client, we use Vite's proxy to reach the backend without CORS issues. Add this to `vite.config.ts`:
+
+```typescript
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 8080,
+    strictPort: true,
+    host: true,
+    origin: "http://0.0.0.0:8080",
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        rewrite: (path: string) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
+});
+```
+
+Nothing fancy — we run the frontend on port 8080 and proxy `/api` to `http://localhost:3000`.
+
+Now in `App.tsx`, fetch the data:
+
+```tsx
+import { useEffect, useState } from "react";
+
+function App() {
+  const [data, setData] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("/api");
+      const data = await response.json();
+      setData(data);
+    };
+    fetchData();
+  }, []);
+
+  return <>{data && <pre>{JSON.stringify(data, null, 2)}</pre>}</>;
+}
+
+export default App;
+```
+
+**This is now a full-stack app!** However, let's enhance the dev experience with pnpm and Docker.
+
+## Enhancements
+
+Run both client and server with a single command from the workspace root:
+
+```json
+"scripts": {
+  "client": "pnpm --filter \"client\" run dev",
+  "server": "pnpm --filter \"server\" run dev",
+  "app": "pnpm run client & pnpm run server"
+}
+```
+
+### Dockerfile for client
+
+```dockerfile
+FROM node:latest
+WORKDIR /app/client
+COPY package.json .
+RUN npm install
+COPY . .
+EXPOSE 8080
+CMD ["npm","run", "dev"]
+```
+
+### Dockerfile for server
+
+```dockerfile
+FROM node:latest
+WORKDIR /app/server
+COPY package.json .
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["npm","run", "dev"]
+```
+
+Before the `docker-compose` file, tweak `vite.config.ts` to target the Docker container name instead of localhost:
+
+```typescript
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 8080,
+    strictPort: true,
+    host: true,
+    origin: "http://0.0.0.0:8080",
+    proxy: {
+      "/api": {
+        target:
+          process.env.NODE_ENV === "docker"
+            ? "http://server_c:3000"
+            : "http://localhost:3000",
+        changeOrigin: true,
+        rewrite: (path: string) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
+});
+```
+
+### docker-compose
+
+```yaml
+services:
+  client:
+    build: ./packages/client
+    container_name: client_c
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=docker
+
+  server:
+    build: ./packages/server
+    container_name: server_c
+    ports:
+      - "3000:3000"
+```
+
+Run it:
+
+```bash
+docker-compose up
+```
+
+---
+
+This covers a full-stack monorepo setup with pnpm workspaces, React, Express, and Docker. It's well maintainable, well structured, and most importantly — you can start everything with a single command.
+
+Thank you for reading and never stop learning :)
