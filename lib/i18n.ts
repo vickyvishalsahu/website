@@ -43,6 +43,7 @@ export const t = {
     experience: [
       {
         company: "Purpose Green",
+        logo: "/purpose-green.png",
         role: "Senior Frontend Developer",
         location: "Berlin",
         period: "Jul 2024 – Present",
@@ -51,6 +52,7 @@ export const t = {
       },
       {
         company: "HeyCar",
+        logo: "/heycar.png",
         role: "Frontend Developer",
         location: "Berlin",
         period: "Jun 2022 – May 2024",
@@ -59,6 +61,7 @@ export const t = {
       },
       {
         company: "OrgFlow",
+        logo: "/orgflow.png",
         role: "Software Developer",
         location: "Heidelberg",
         period: "Dec 2020 – May 2022",
@@ -67,6 +70,7 @@ export const t = {
       },
       {
         company: "Aliru GmbH",
+        logo: "/aliru.png",
         role: "UI Engineer",
         location: "Mannheim",
         period: "Oct 2019 – Nov 2020",
@@ -75,6 +79,7 @@ export const t = {
       },
       {
         company: "SM NetServ Technologies",
+        logo: "/netserv.png",
         role: "Software Engineer",
         location: "Bangalore",
         period: "Jan 2019 – Sep 2019",
@@ -83,6 +88,7 @@ export const t = {
       },
       {
         company: "AppAchhi Tech",
+        logo: "/appachhi.png",
         role: "Web Developer",
         location: "Bangalore",
         period: "Aug 2016 – Jan 2019",

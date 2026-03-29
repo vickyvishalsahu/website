@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { t } from "@/lib/i18n";
 
 export function About() {
@@ -18,9 +19,13 @@ export function About() {
             <div key={job.company} className="relative border-l-2 border-zinc-200 pl-6">
               <div className="absolute -left-[5px] top-1.5 h-2 w-2 rounded-full bg-zinc-400" />
               <div className="flex gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-zinc-100 text-sm font-semibold text-zinc-500">
-                  {job.company[0]}
-                </div>
+                <Image
+                  src={job.logo}
+                  alt={job.company}
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 shrink-0 rounded-md object-contain"
+                />
                 <div>
                   <div className="flex flex-wrap items-baseline gap-x-2">
                     <span className="font-medium text-zinc-900">{job.company}</span>
