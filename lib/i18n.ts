@@ -36,6 +36,81 @@ export const t = {
     techTitle: "Tech I work with",
     stack: ["TypeScript", "React", "Next.js", "Node.js", "Tailwind CSS", "PostgreSQL"],
   },
+  about: {
+    title: "About",
+    description: "About Vicky — experience, skills, and background",
+    intro:
+      "10 years in, and the part I still enjoy most is the moment something clicks — when a feature feels right, the code is clean, and the team is proud of what shipped. I've worked across startups and scaleups in Berlin and beyond. Frontend is home, but I'm comfortable enough across the stack to understand the full picture and have the right conversations.",
+    experience: [
+      {
+        company: "Purpose Green",
+        role: "Senior Frontend Developer",
+        location: "Berlin",
+        period: "Jul 2024 – Present",
+        summary:
+          "Built Green+ end-to-end — a proptech platform for large-scale property owners. Owned frontend architecture, CI, E2E testing, and AI integration.",
+      },
+      {
+        company: "HeyCar",
+        role: "Frontend Developer",
+        location: "Berlin",
+        period: "Jun 2022 – May 2024",
+        summary:
+          "Reusable UI components on a large-scale used car platform. Eliminated ~50% tech debt. Mentored junior engineers.",
+      },
+      {
+        company: "OrgFlow",
+        role: "Software Developer",
+        location: "Heidelberg",
+        period: "Dec 2020 – May 2022",
+        summary:
+          "Internal tools for Salesforce CRM versioning — VSCode extension, user management APIs. Shipped full product in 16 months on pre-seed funding.",
+      },
+      {
+        company: "Aliru GmbH",
+        role: "UI Engineer",
+        location: "Mannheim",
+        period: "Oct 2019 – Nov 2020",
+        summary:
+          "Built admin platform for low-code chatbot creation from scratch. Engineered flow graph that cut chatbot-building time by ~50%.",
+      },
+      {
+        company: "SM NetServ Technologies",
+        role: "Software Engineer",
+        location: "Bangalore",
+        period: "Jan 2019 – Sep 2019",
+        summary:
+          "Built UI platform for Mathematica Policy Research — previously handled entirely via raw API calls. Led a team of 2 interns.",
+      },
+      {
+        company: "AppAchhi Tech",
+        role: "Web Developer",
+        location: "Bangalore",
+        period: "Aug 2016 – Jan 2019",
+        summary:
+          "Wireframes to production. Interactive dashboards, landing pages, and an arcade game for product exposure.",
+      },
+    ],
+    skills: {
+      frontend: ["React", "Next.js", "TypeScript", "Vue", "Angular", "Redux", "Zustand", "Tailwind CSS", "Material UI", "Storybook"],
+      backend: ["Node.js", "Express", "Kotlin", "GraphQL", "MongoDB", "MySQL", "Flask"],
+      tools: ["Vercel", "AWS", "Azure", "CircleCI", "Webpack", "Zod", "React Native"],
+    },
+    education: [
+      {
+        degree: "MS in Big Data & Business Applications",
+        institution: "SRH Hochschule, Heidelberg",
+        period: "Oct 2019 – Sep 2021",
+      },
+      {
+        degree: "BTech in Computer Science",
+        institution: "ITER, Bhubaneswar",
+        period: "Jul 2012 – Jun 2016",
+      },
+    ],
+    cvLink: "/cv.pdf",
+    cvLabel: "Download CV",
+  },
   projects: {
     title: "Projects",
     description: "A selection of projects I've worked on",
