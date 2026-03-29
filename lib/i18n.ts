@@ -23,8 +23,8 @@ export const t = {
     ],
     description:
       "I'm Vicky, a Senior Software Developer based in Berlin. I specialise in React and TypeScript — building interfaces that are fast, clean, and actually enjoyable to use. I've shipped products across e-commerce, proptech, and developer tooling, and I work best when design, backend, and product are all in the same room. These days I'm also deep into AI-assisted development — using it to move faster without losing quality.",
-    viewWork: "View Work",
-    getInTouch: "Get in Touch",
+    viewWork: "LinkedIn",
+    getInTouch: "Download CV",
     aboutTitle: "About",
     aboutText: [
       "10 years in, and the part I still enjoy most is the moment something clicks — when a feature feels right, the code is clean, and the team is proud of what shipped.",
@@ -136,7 +136,7 @@ export const t = {
     links: [
       { label: "Email", href: "mailto:hello@example.com", value: "hello@example.com" },
       { label: "GitHub", href: "https://github.com", value: "github.com/zephyr" },
-      { label: "LinkedIn", href: "https://linkedin.com", value: "linkedin.com/in/zephyr" },
+      { label: "LinkedIn", href: "https://www.linkedin.com/in/vickyvishal/", value: "linkedin.com/in/zephyr" },
       { label: "Twitter", href: "https://twitter.com", value: "@zephyr" },
     ],
     form: {
@@ -153,9 +153,8 @@ export const t = {
   footer: {
     copyright: "Vicky. All rights reserved.",
     socials: [
-      { label: "GitHub", href: "https://github.com" },
-      { label: "LinkedIn", href: "https://linkedin.com" },
-      { label: "Twitter", href: "https://twitter.com" },
+      { label: "LinkedIn", href: "https://www.linkedin.com/in/vickyvishal/" },
+      { label: "Twitter", href: "https://x.com/vicvishalsahu" },
     ],
   },
 } as const;
