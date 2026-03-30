@@ -88,10 +88,10 @@ export async function About() {
         <a
           href={cvLink}
           download="vickysahu-cv.pdf"
-          className="inline-flex items-center gap-2 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
+          className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700"
         >
           {t("cvLabel")}
-          <span aria-hidden="true">&rarr;</span>
+          <span aria-hidden="true">&darr;</span>
         </a>
       </section>
     </div>
