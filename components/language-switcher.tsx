@@ -32,7 +32,7 @@ export function LanguageSwitcher() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm text-zinc-500 transition-colors hover:text-zinc-900"
+        className="flex cursor-pointer items-center gap-1.5 rounded-md px-2 py-1.5 text-sm text-zinc-500 transition-colors hover:text-zinc-900"
         aria-expanded={open}
         aria-haspopup="listbox"
       >
@@ -62,7 +62,7 @@ export function LanguageSwitcher() {
                   router.replace(pathname, { locale: l.code });
                   setOpen(false);
                 }}
-                className={`flex w-full items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-zinc-50 ${
+                className={`flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-zinc-50 ${
                   l.code === locale ? "font-medium text-zinc-900" : "text-zinc-600"
                 }`}
               >
