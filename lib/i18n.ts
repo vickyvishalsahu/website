@@ -16,7 +16,7 @@ export const t = {
     greeting: "Hi, I'm",
     name: "Vicky",
     taglines: [
-      "I write and own the code that ships, not the code that demos.",
+      "I write code that ships, not the code that demos.",
       "I care about why we're building it, not just how.",
       "I build in steps small enough to reverse.",
       "Collaboration is my favourite part of the job.",
