@@ -23,7 +23,7 @@ export function NotificationBanner() {
         <p className="text-sm text-amber-900">
           New post:{" "}
           <Link
-            href="/blog/hello-world"
+            href="/blog/end-of-a-chapter"
             className="font-medium underline decoration-amber-300 underline-offset-2 transition-colors hover:text-amber-700"
           >
             The end of a chapter, and what I&apos;m building next
