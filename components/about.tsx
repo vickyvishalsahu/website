@@ -1,21 +1,22 @@
 import Image from "next/image";
-import { t } from "@/lib/i18n";
+import { getTranslations } from "next-intl/server";
+import { experience, skills, education, cvLink } from "@/lib/data";
 
-export function About() {
+export async function About() {
+  const t = await getTranslations("about");
+
   return (
     <div className="mx-auto max-w-4xl px-6 py-16">
-      <h1 className="text-3xl font-semibold tracking-tight">{t.about.title}</h1>
-
+      <h1 className="text-3xl font-semibold tracking-tight">{t("title")}</h1>
 
       <p className="mt-6 max-w-2xl leading-relaxed text-zinc-600">
-        {t.about.intro}
+        {t("intro")}
       </p>
 
-
       <section className="mt-12 border-t border-zinc-200 pt-10">
-        <h2 className="text-lg font-semibold tracking-tight">Experience</h2>
+        <h2 className="text-lg font-semibold tracking-tight">{t("experienceTitle")}</h2>
         <div className="mt-6 space-y-8">
-          {t.about.experience.map((job) => (
+          {experience.map((job, i) => (
             <div key={job.company} className="relative border-l-2 border-zinc-200 pl-6">
               <div className="absolute -left-[5px] top-1.5 h-2 w-2 rounded-full bg-zinc-400" />
               <div className="flex gap-3">
@@ -29,13 +30,13 @@ export function About() {
                 <div>
                   <div className="flex flex-wrap items-baseline gap-x-2">
                     <span className="font-medium text-zinc-900">{job.company}</span>
-                    <span className="text-sm text-zinc-500">{job.role}</span>
+                    <span className="text-sm text-zinc-500">{t(`experience.${i}.role`)}</span>
                   </div>
                   <div className="mt-0.5 text-sm text-zinc-400">
                     {job.location} · {job.period}
                   </div>
                   <p className="mt-2 text-sm leading-relaxed text-zinc-600">
-                    {job.summary}
+                    {t(`experience.${i}.summary`)}
                   </p>
                 </div>
               </div>
@@ -44,15 +45,14 @@ export function About() {
         </div>
       </section>
 
-
       <section className="mt-12 border-t border-zinc-200 pt-10">
-        <h2 className="text-lg font-semibold tracking-tight">Skills</h2>
+        <h2 className="text-lg font-semibold tracking-tight">{t("skillsTitle")}</h2>
         <div className="mt-6 space-y-4">
           {(
             [
-              ["Frontend", t.about.skills.frontend],
-              ["Backend", t.about.skills.backend],
-              ["Tools & Infra", t.about.skills.tools],
+              [t("skillsFrontend"), skills.frontend],
+              [t("skillsBackend"), skills.backend],
+              [t("skillsTools"), skills.tools],
             ] as const
           ).map(([label, items]) => (
             <div key={label}>
@@ -72,11 +72,10 @@ export function About() {
         </div>
       </section>
 
-      {/* Education */}
       <section className="mt-12 border-t border-zinc-200 pt-10">
-        <h2 className="text-lg font-semibold tracking-tight">Education</h2>
+        <h2 className="text-lg font-semibold tracking-tight">{t("educationTitle")}</h2>
         <div className="mt-6 space-y-3">
-          {t.about.education.map((edu) => (
+          {education.map((edu) => (
             <div key={edu.degree}>
               <span className="font-medium text-zinc-900">{edu.degree}</span>
               <span className="text-sm text-zinc-500"> — {edu.institution} · {edu.period}</span>
@@ -85,14 +84,13 @@ export function About() {
         </div>
       </section>
 
-      {/* CV Download */}
       <section className="mt-12 border-t border-zinc-200 pt-10">
         <a
-          href={t.about.cvLink}
+          href={cvLink}
           download="vickysahu-cv.pdf"
           className="inline-flex items-center gap-2 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
         >
-          {t.about.cvLabel}
+          {t("cvLabel")}
           <span aria-hidden="true">&rarr;</span>
         </a>
       </section>

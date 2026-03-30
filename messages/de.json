@@ -1,0 +1,111 @@
+{
+  "site": {
+    "name": "Vicky",
+    "title": "Vicky | Portfolio",
+    "titleTemplate": "%s | Vicky",
+    "description": "Entwickler-Portfolio und Blog"
+  },
+  "nav": {
+    "home": "Startseite",
+    "blog": "Blog",
+    "about": "Über mich"
+  },
+  "home": {
+    "greeting": "Hi, ich bin",
+    "name": "Vicky",
+    "taglines": {
+      "0": "Ich schreibe Code, der live geht — nicht nur für Demos.",
+      "1": "Mir ist wichtig, warum wir etwas bauen, nicht nur wie.",
+      "2": "Ich baue in Schritten, die klein genug sind, um sie rückgängig zu machen.",
+      "3": "Zusammenarbeit ist mein liebster Teil der Arbeit.",
+      "4": "Ich suche mein nächstes Team!"
+    },
+    "description": "Ich bin Vicky, ein Senior Software Developer in Berlin. Ich bin spezialisiert auf React und TypeScript — ich baue Interfaces, die schnell, sauber und wirklich angenehm zu benutzen sind. Ich habe Produkte in den Bereichen E-Commerce, Proptech und Developer Tooling ausgeliefert und arbeite am besten, wenn Design, Backend und Produkt alle im selben Raum sind. Aktuell beschäftige ich mich intensiv mit KI-gestützter Entwicklung — um schneller zu arbeiten, ohne an Qualität zu verlieren.",
+    "viewWork": "LinkedIn",
+    "getInTouch": "Lebenslauf herunterladen",
+    "aboutTitle": "Über mich",
+    "aboutText": {
+      "0": "Nach 10 Jahren genieße ich immer noch am meisten den Moment, wenn etwas klickt — wenn ein Feature sich richtig anfühlt, der Code sauber ist und das Team stolz auf das ist, was ausgeliefert wurde.",
+      "1": "Ich habe bei Startups und Scaleups in Berlin und darüber hinaus gearbeitet — HeyCar, Myntra, Aliru, Purpose Green. Frontend ist mein Zuhause, aber ich bin vertraut genug mit dem gesamten Stack, um das große Ganze zu verstehen und die richtigen Gespräche zu führen.",
+      "2": "In letzter Zeit bin ich tief in die KI-gestützte Entwicklung eingetaucht. Claude Code im Terminal, Agents in der Codebasis, LLMs als Denkpartner. Es hat meine Arbeitsweise verändert — ich liefere schneller, denke klarer und halte einen höheren Standard.",
+      "3": "Ich bin derzeit offen für neue Möglichkeiten — Senior Software Developer oder eine leitende Rolle, in Berlin oder remote."
+    },
+    "techTitle": "Technologien, mit denen ich arbeite"
+  },
+  "about": {
+    "title": "Über mich",
+    "description": "Über Vicky — Erfahrung, Fähigkeiten und Hintergrund",
+    "intro": "Nach 10 Jahren genieße ich immer noch am meisten den Moment, wenn etwas klickt — wenn ein Feature sich richtig anfühlt, der Code sauber ist und das Team stolz auf das ist, was ausgeliefert wurde. Ich habe bei Startups und Scaleups in Berlin und darüber hinaus gearbeitet. Frontend ist mein Zuhause, aber ich bin vertraut genug mit dem gesamten Stack, um das große Ganze zu verstehen und die richtigen Gespräche zu führen.",
+    "experienceTitle": "Erfahrung",
+    "experience": {
+      "0": {
+        "role": "Senior Frontend Developer",
+        "summary": "Green+ von Grund auf gebaut — eine Proptech-Plattform für große Immobilienbesitzer. Verantwortlich für Frontend-Architektur, CI, E2E-Tests und KI-Integration."
+      },
+      "1": {
+        "role": "Frontend Developer",
+        "summary": "Wiederverwendbare UI-Komponenten auf einer großen Gebrauchtwagen-Plattform. ~50% technische Schulden eliminiert. Junior-Entwickler mentoriert."
+      },
+      "2": {
+        "role": "Software Developer",
+        "summary": "Interne Tools für Salesforce-CRM-Versionierung — VSCode-Erweiterung, Benutzerverwaltungs-APIs. Komplettes Produkt in 16 Monaten mit Pre-Seed-Finanzierung ausgeliefert."
+      },
+      "3": {
+        "role": "UI Engineer",
+        "summary": "Admin-Plattform für Low-Code-Chatbot-Erstellung von Grund auf gebaut. Flow-Graph entwickelt, der die Chatbot-Erstellungszeit um ~50% reduzierte."
+      },
+      "4": {
+        "role": "Software Engineer",
+        "summary": "UI-Plattform für Mathematica Policy Research gebaut — zuvor vollständig über reine API-Aufrufe gehandhabt. Ein Team von 2 Praktikanten geleitet."
+      },
+      "5": {
+        "role": "Web Developer",
+        "summary": "Von Wireframes zur Produktion. Interaktive Dashboards, Landing Pages und ein Arcade-Spiel zur Produktpräsentation."
+      }
+    },
+    "skillsTitle": "Fähigkeiten",
+    "skillsFrontend": "Frontend",
+    "skillsBackend": "Backend",
+    "skillsTools": "Tools & Infra",
+    "educationTitle": "Ausbildung",
+    "cvLabel": "Lebenslauf herunterladen"
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Gedanken zu Webentwicklung, Design und Tools",
+    "subtitle": "Gedanken zu Webentwicklung, Design und Tools.",
+    "emptyState": "Noch keine Beiträge. Schau bald wieder vorbei!",
+    "pinned": "Angepinnt",
+    "readPost": "Beitrag lesen",
+    "minRead": "Min. Lesezeit"
+  },
+  "contact": {
+    "title": "Kontakt",
+    "description": "Nimm Kontakt mit mir auf",
+    "subtitle": "Hast du eine Frage oder möchtest zusammenarbeiten? Melde dich!",
+    "sendMessage": "Nachricht senden",
+    "findMe": "Finde mich online",
+    "form": {
+      "nameLabel": "Name",
+      "namePlaceholder": "Dein Name",
+      "emailLabel": "E-Mail",
+      "emailPlaceholder": "du@beispiel.de",
+      "messageLabel": "Nachricht",
+      "messagePlaceholder": "Deine Nachricht...",
+      "submit": "Nachricht senden",
+      "success": "Danke für deine Nachricht! Ich melde mich bald bei dir."
+    }
+  },
+  "recommendations": {
+    "title": "Was andere sagen",
+    "viewAll": "Alle auf LinkedIn ansehen",
+    "readMore": "Mehr auf LinkedIn lesen"
+  },
+  "footer": {
+    "copyright": "Vicky. Alle Rechte vorbehalten."
+  },
+  "languageSwitcher": {
+    "en": "EN",
+    "de": "DE"
+  }
+}
