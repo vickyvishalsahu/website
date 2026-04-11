@@ -4,18 +4,18 @@ date: "2026-04-11"
 description: "Like the drop shot in badminton, useEffect is a brilliant tool — but it should be rare, earned, and never your default."
 tags: ["react", "architecture", "frontend"]
 pinned: true
-highlight: "When you write useEffect, you should be asking yourself: why can't I solve this without it?"
+highlight: "When you write useEffect, you should be asking yourself: what is stopping me from solving this without it?"
 ---
 
-I've been playing badminton for over 20 years. These days I play regularly with newer, more enthusiastic players — people who just picked up a racket and are figuring things out. I genuinely enjoy that. Different levels, different energy, everyone learning.
+I have been playing badminton for over 20 years. These days I play regularly with newer, more enthusiastic players — people who just picked up a racket and are figuring things out. I genuinely enjoy that. Different levels, different energy, everyone learning.
 
-But there's one thing that drives me quietly insane: players who drop shot every single rally.
+But there is one thing that drives me quietly insane: players who drop shot every single rally.
 
-Not because they've read the opponent's position. Not because they've set it up with three good clears and now the drop is the kill. Just... because it's easy. Drop shots don't require power. They don't require footwork. You don't have to think about the rally, the line, the setup. You just tap the shuttle and it falls. Job done.
+Not because they have read the opponent's position. Not because they have set it up with three good clears and now the drop is the kill. Just... because it is easy. Drop shots do not require power. They do not require footwork. You do not have to think about the rally, the line, the setup. You just tap the shuttle and it falls. Job done.
 
-So I've started doing something about it. The moment I see someone loading up for the obvious drop, I'm already moving forward. I reach it. I smash it back hard. Not to be brutal — just to force them to play a real rally. Use your backhand. Play the line. Move them around. *Use the whole court.*
+So I have started doing something about it. The moment I see someone loading up for the obvious drop, I am already moving forward. I reach it. I smash it back hard. Not to be brutal — just to force them to play a real rally. Use your backhand. Play the line. Move them around. *Use the whole court.*
 
-The drop shot is a brilliant shot. In the right situation, it's devastating. But it should be rare. It should be earned. The moment it becomes your default, you stop developing. You stop thinking. And everyone watching can see exactly what's coming.
+The drop shot is a brilliant shot. In the right situation, it is devastating. But it should be rare. It should be earned. The moment it becomes your default, you stop developing. You stop thinking. And everyone watching can see exactly what is coming.
 
 ---
 
@@ -25,46 +25,46 @@ A few weeks ago I was reviewing code that had just come out of an AI agent build
 
 The squiggly lines were everywhere. Unused `setState` calls. Dependencies that made no sense. Side effects that were side effects of side effects.
 
-This isn't a dig at AI agents specifically — they're doing exactly what they've been trained to do, which is pattern-match on the codebases they've learned from. And those codebases are full of `useEffect` because developers have been reaching for it as a default for years.
+This is not a dig at AI agents specifically — they are doing exactly what they have been trained to do, which is pattern-match on the codebases they have learned from. And those codebases are full of `useEffect` because developers have been reaching for it as a default for years.
 
-That's the problem.
+That is the problem.
 
-`useEffect` exists for one reason: to synchronise your component with something *outside* of React. An external subscription. A DOM API that React can't control. A third-party library that needs setup and teardown. That's it. That's the whole job description.
+`useEffect` exists for one reason: to synchronise your component with something *outside* of React. An external subscription. A DOM API that React cannot control. A third-party library that needs setup and teardown. That is it. That is the whole job description.
 
-When you use it to synchronise React state with other React state, you're not solving a problem — you're creating one. You've introduced an asynchronous execution cycle into something that was synchronous. You've made the data flow non-obvious. You've added a place for stale closures to hide. And every time someone reads that code later, they have to work backwards through the effect chain to understand what's actually happening.
+When you use it to synchronise React state with other React state, you are not solving a problem — you are creating one. You have introduced an asynchronous execution cycle into something that was synchronous. You have made the data flow non-obvious. You have added a place for stale closures to hide. And every time someone reads that code later, they have to work backwards through the effect chain to understand what is actually happening.
 
 Most of the time, the real fix is simpler:
 
 - Derived value? Just compute it during render. No effect needed.
 - Something that should happen when a user acts? Put it in the event handler.
 - Data that needs to be fetched? Use a proper data-fetching library — React Query, SWR, whatever fits the project.
-- Global state that components need to share? That's an architecture question, and `useEffect` is not the answer.
+- Global state that components need to share? That is an architecture question, and `useEffect` is not the answer.
 
-When I see heavy `useEffect` usage in a codebase, I start asking questions. Not about the specific files — about the thinking. Because reaching for `useEffect` usually means the architecture hasn't been considered carefully enough. It means someone looked at a problem and picked the closest thing that made the symptoms go away, rather than understanding why the symptoms were there.
+When I see heavy `useEffect` usage in a codebase, I start asking questions. Not about the specific files — about the thinking. Because reaching for `useEffect` usually means the architecture has not been considered carefully enough. It means someone looked at a problem and picked the closest thing that made the symptoms go away, rather than understanding why the symptoms were there.
 
 ---
 
-I'm not being precious about this. I'm not saying "never use `useEffect`." I've used it plenty. There are real cases where it's the right tool — websocket connections, analytics events, canvas operations, integrations with libraries that live outside the React model.
+I am not being precious about this. I am not saying "never use `useEffect`." I have used it plenty. There are real cases where it is the right tool — websocket connections, analytics events, canvas operations, integrations with libraries that live outside the React model.
 
-But those cases should be exceptional. They should feel slightly uncomfortable. When you write `useEffect`, you should be asking yourself: *why can't I solve this without it?* If you can't answer that clearly, you probably shouldn't be writing it.
+But those cases should be exceptional. They should feel slightly uncomfortable. When you write `useEffect`, you should be asking yourself: *what is stopping me from solving this without it?* If you cannot answer that clearly, you probably should not be writing it.
 
-The same applies to AI-generated code. The agent isn't wrong because it used `useEffect` — it's worth examining the prompt, the context, the architectural scaffolding you gave it to work with. Agents pattern-match. If the codebase they're extending is full of effects, they'll write effects. If you've built a clean architecture that makes the data flow obvious, they'll mostly follow it.
+The same applies to AI-generated code. The agent is not wrong because it used `useEffect` — it is worth examining the prompt, the context, the architectural scaffolding you gave it to work with. Agents pattern-match. If the codebase they are extending is full of effects, they will write effects. If you have built a clean architecture that makes the data flow obvious, they will mostly follow it.
 
-That's a bigger conversation about how to work with coding agents well, and I'll write that separately. But the short version is: the agent's output is a reflection of the foundations you laid.
+That is a bigger conversation about how to work with coding agents well, and I will write that separately. But the short version is: the agent's output is a reflection of the foundations you laid.
 
 ---
 
 Back to the badminton court.
 
-The players who only drop shot aren't bad players. They're just taking the path of least resistance. They haven't been forced to develop variation, placement, deception. The drop shot is so available, so easy, that they never had to.
+The players who only drop shot are not bad players. They are just taking the path of least resistance. They have not been forced to develop variation, placement, deception. The drop shot is so available, so easy, that they never had to.
 
 The players who improve fastest are the ones who make it hard on themselves. Who play the long rally. Who work the lines. Who earn the drop shot by making it genuinely unexpected.
 
 Writing React without leaning on `useEffect` is the same discipline. It means thinking about your data flow before you write a single component. It means asking where state should live and why. It means writing event handlers that do real work instead of setting flags for effects to pick up later.
 
-It's more effort upfront. The code is clearer, the bugs are fewer, and the next developer who reads it — or the next AI agent who extends it — has something solid to work with.
+It is more effort upfront. The code is clearer, the bugs are fewer, and the next developer who reads it — or the next AI agent who extends it — has something solid to work with.
 
-And when you do write a `useEffect`, it means something. It's the drop shot that earned its place in the rally.
+And when you do write a `useEffect`, it means something. It is the drop shot that earned its place in the rally.
 
 ---
 
