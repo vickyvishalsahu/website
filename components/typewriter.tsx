@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useReducer, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useReducer, useState, useSyncExternalStore } from "react";
 
 interface TypewriterProps {
   texts: readonly string[];
@@ -8,6 +8,7 @@ interface TypewriterProps {
   deletingSpeed?: number;
   pauseDuration?: number;
   className?: string;
+  triggerOn?: "mount" | "hover";
 }
 
 interface State {
@@ -17,9 +18,14 @@ interface State {
   done: boolean;
 }
 
-type Action = { type: "tick"; textsLength: number; lastTextLength: number };
+type Action =
+  | { type: "tick"; textsLength: number; lastTextLength: number }
+  | { type: "stop"; lastTextIndex: number; lastTextLength: number };
 
 function reducer(state: State, action: Action): State {
+  if (action.type === "stop") {
+    return { textIndex: action.lastTextIndex, charIndex: action.lastTextLength, isDeleting: false, done: true };
+  }
   if (state.done) return state;
 
   const { textIndex, charIndex, isDeleting } = state;
@@ -48,7 +54,9 @@ export function Typewriter({
   deletingSpeed = 40,
   pauseDuration = 2000,
   className,
+  triggerOn = "mount",
 }: TypewriterProps) {
+  const [active, setActive] = useState(triggerOn === "mount");
   const [state, dispatch] = useReducer(reducer, {
     textIndex: 0,
     charIndex: 0,
@@ -66,10 +74,10 @@ export function Typewriter({
   const current = texts[textIndex];
 
   const getDelay = useCallback(() => {
-    if (!mounted || done) return null;
+    if (!mounted || !active || done) return null;
     if (!isDeleting && charIndex === current.length) return pauseDuration;
     return isDeleting ? deletingSpeed : typingSpeed;
-  }, [mounted, done, isDeleting, charIndex, current.length, pauseDuration, deletingSpeed, typingSpeed]);
+  }, [mounted, active, done, isDeleting, charIndex, current.length, pauseDuration, deletingSpeed, typingSpeed]);
 
   useEffect(() => {
     const delay = getDelay();
@@ -82,15 +90,28 @@ export function Typewriter({
     return () => clearTimeout(timeout);
   }, [getDelay, texts.length, current.length]);
 
+  useEffect(() => {
+    if (!active || done) return;
+    const lastIndex = texts.length - 1;
+    const handleClick = () =>
+      dispatch({ type: "stop", lastTextIndex: lastIndex, lastTextLength: texts[lastIndex].length });
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, [active, done, texts]);
+
   const longest = texts.reduce((a, b) => (a.length > b.length ? a : b));
+  const showCursor = !done || !active;
 
   return (
-    <span className={`relative block ${className ?? ""}`}>
+    <div
+      className={`relative w-full ${className ?? ""}`}
+      onMouseEnter={() => setActive(true)}
+    >
       <span className="invisible" aria-hidden="true">{longest}</span>
       <span className="absolute left-0 top-0">
-        {current.slice(0, charIndex)}
-        {!done && <span className="animate-blink">|</span>}
+        {active ? current.slice(0, charIndex) : texts[0]}
+        {showCursor && <span className="animate-blink">|</span>}
       </span>
-    </span>
+    </div>
   );
 }

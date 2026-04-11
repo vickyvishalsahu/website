@@ -1,7 +1,13 @@
 import { Link } from "@/i18n/navigation";
 import type { PostMeta } from "@/lib/mdx";
 
+const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+
 export function PinnedBlogCard({ post }: { post: PostMeta }) {
+  const isNew =
+    post.new === true ||
+    (post.new === null && Date.now() - new Date(post.date).getTime() < THIRTY_DAYS_MS);
+
   return (
     <Link
       href={`/blog/${post.slug}`}
@@ -9,9 +15,16 @@ export function PinnedBlogCard({ post }: { post: PostMeta }) {
     >
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <div>
-          <span className="inline-block rounded-full bg-zinc-900 px-2.5 py-0.5 text-xs font-semibold text-white">
-            Pinned
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="inline-block rounded-full bg-zinc-900 px-2.5 py-0.5 text-xs font-semibold text-white">
+              Pinned
+            </span>
+            {isNew && (
+              <span className="inline-block rounded-full bg-blue-600 px-2.5 py-0.5 text-xs font-semibold text-white">
+                New
+              </span>
+            )}
+          </div>
           <h3 className="mt-3 text-xl font-bold tracking-tight">
             {post.title}
           </h3>

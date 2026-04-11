@@ -17,6 +17,7 @@ export async function Hero() {
         <Typewriter
           texts={taglines}
           className="mb-6 text-xl font-medium text-zinc-500"
+          triggerOn="hover"
         />
         <p className="mb-8 text-base leading-relaxed text-zinc-600">
           {t("description")}

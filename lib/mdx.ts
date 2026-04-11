@@ -11,6 +11,7 @@ export interface PostMeta {
   tags: string[];
   slug: string;
   pinned: boolean;
+  new: boolean | null;
   highlight: string;
   readingTime: number;
   mediumUrl: string;
@@ -33,6 +34,7 @@ export function getAllPosts(): PostMeta[] {
       tags: data.tags ?? [],
       slug,
       pinned: data.pinned === true,
+      new: data.new === undefined ? null : data.new === true,
       highlight: data.highlight ?? "",
       readingTime: Math.ceil(content.split(/\s+/).length / 200),
       mediumUrl: data.mediumUrl ?? "",
@@ -57,6 +59,7 @@ export function getPostBySlug(slug: string) {
       tags: data.tags ?? [],
       slug,
       pinned: data.pinned === true,
+      new: data.new === undefined ? null : data.new === true,
       highlight: data.highlight ?? "",
       readingTime: Math.ceil(content.split(/\s+/).length / 200),
       mediumUrl: data.mediumUrl ?? "",
