@@ -9,6 +9,10 @@ import { Footer } from "@/components/footer";
 import { NotificationBanner } from "@/components/notification-banner";
 import "./globals.css";
 
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
