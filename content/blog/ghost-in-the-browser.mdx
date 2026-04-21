@@ -1,0 +1,166 @@
+---
+title: "The Ghost in the Browser"
+date: "2026-04-21"
+description: "A story about a bug that doesn't exist, a user who's always right, and what happens when your framework has been quietly doing things for you for years."
+tags: ["react", "frontend", "deployment"]
+pinned: true
+new: true
+highlight: "Frameworks aren't magic. They're just someone else's accumulated scar tissue."
+---
+
+I deployed on a Tuesday afternoon. Clean build, green CI, Vercel said everything was fine. I closed my laptop and went to make tea.
+
+Twenty minutes later, a user sent a screenshot. White flash. Broken screen. A component had exploded mid-render — something about a dynamically imported module. And then, in the next message: *"never mind, reload fixed it."*
+
+I stared at that for a long time. Reload fixed it. The classic sign that something is deeply, structurally wrong, wrapped in a bow that makes it easy to ignore.
+
+I did not ignore it.
+
+---
+
+## Some background
+
+Before this role, I'd spent years building on Next.js. You deploy, users get new code. Simple. I never thought about *how* — I just trusted it worked, the way you trust a dishwasher without knowing whether it uses jets or ultrasound or tiny elves.
+
+At Purpose Green, we were on a Vite + React SPA. Fast, lean, no server. I carried the same mental model over. Deploy, done. That was my first mistake.
+
+---
+
+## How the browser actually learns about new code
+
+Here's the part nobody explains clearly until you've already suffered through it.
+
+When Vite builds your app, it fingerprints your JS files. Every build generates a unique hash baked into the filename:
+
+```bash
+# old deploy
+main.3f8a9c.js
+
+# new deploy
+main.7b2e11.js
+```
+
+The HTML file references whichever bundle exists right now. And crucially, Vercel sets `Cache-Control: no-cache` on HTML — so every new tab, every hard reload, the browser fetches fresh HTML, sees the new filename, and downloads the new bundle. The JS itself is cached aggressively (up to a year), but that's fine because the filename is different. Safe.
+
+This system works beautifully. Until your user never reloads.
+
+> A SPA never truly navigates. React Router intercepts every click. The browser never fetches new HTML. Your user can sit on an old bundle for hours, completely unaware that you've deployed twice.
+
+And most of the time, that's fine. Their old bundle runs from cache. No problem.
+
+Until they click on a route that uses code splitting.
+
+---
+
+## The actual bug
+
+We had code splitting everywhere — sensible for a large app. The settings page, the analytics dashboard, the admin panel — all lazy-loaded. Only fetched when the user navigates to them.
+
+Here's what happens when a user visits the app before your deploy, then navigates to a lazy-loaded route *after* your deploy:
+
+```
+user     →  clicks "Settings"
+browser  →  import('/assets/settings.abc123.js')
+vercel   →  404 — that file doesn't exist anymore
+react    →  Failed to fetch dynamically imported module
+user     →  sees white flash, refreshes, everything works
+```
+
+The new deploy replaced `settings.abc123.js` with `settings.xyz789.js`. The old file is gone. The user's browser has no idea. It asks for something that no longer exists, React throws, and the error reaches the screen before anything can catch it.
+
+That's the white flash. Not a React bug. Not a state bug. A deployment timing problem.
+
+**Why "reload fixes it":** A reload fetches fresh HTML, which references the new bundle filenames. Now everything lines up and works. The browser wasn't broken — it was just working with outdated information.
+
+---
+
+## Why this never happened with Next.js
+
+This is where I had a small revelation about what frameworks actually do for you.
+
+Next.js is a framework — it owns both the server and the client runtime. On every client-side route transition, the Next.js client quietly checks in with the server:
+
+```
+GET /_next/data/[buildId]/settings.json
+```
+
+If the `buildId` in the response doesn't match what the client has baked in, Next.js doesn't attempt a lazy chunk load at all. It performs a hard navigation — fresh HTML, fresh bundle, clean slate. The user barely notices. No flash, no error.
+
+On top of that, Vercel keeps old Next.js chunk files alive for roughly 24 hours after a deploy. So even mid-session users can still load old chunks if the router hasn't caught the mismatch yet.
+
+Vite does none of this. And it shouldn't — Vite is a build tool. It transforms your source code and produces output files. What happens in production at runtime, between your users and your server, is not Vite's concern. It handed you a bag of well-named files and its job was done.
+
+The gap I fell into wasn't a Vite gap. It was a *"I thought I was using a framework but I was actually just using a bundler"* gap.
+
+---
+
+## How I fixed it
+
+The naive fix — wrapping the whole app in an error boundary and reloading on chunk errors — still produces the flash, because the error propagates to the UI before you can intercept it.
+
+The clean fix is to intercept *at the import call site*, before anything renders. I replaced every `React.lazy()` in the codebase with a wrapper:
+
+```ts
+// lazyWithRetry.ts
+export function lazyWithRetry(factory) {
+  return lazy(() =>
+    factory().catch((err) => {
+      const isChunkError =
+        err?.message?.includes("dynamically imported module") ||
+        err?.message?.includes("Failed to fetch dynamically imported");
+
+      if (isChunkError) {
+        const alreadyRetried = sessionStorage.getItem("chunk_reload");
+
+        if (!alreadyRetried) {
+          sessionStorage.setItem("chunk_reload", "true");
+          sessionStorage.setItem("app_was_updated", "true");
+          window.location.reload();
+          // freeze React — don't render the error state
+          return new Promise(() => {});
+        }
+      }
+
+      throw err;
+    })
+  );
+}
+```
+
+Usage is identical to `lazy()`:
+
+```ts
+const Settings = lazyWithRetry(() => import("./pages/Settings"));
+const Analytics = lazyWithRetry(() => import("./pages/Analytics"));
+```
+
+The `new Promise(() => {})` is the key detail. It never resolves, so React suspends indefinitely on that component while the page reloads. The user sees the current page frozen for a fraction of a second, then a fresh load — no error, no broken UI.
+
+On reload, the app boots fresh, reads the `sessionStorage` flag, and shows a toast:
+
+```ts
+// On app boot
+if (sessionStorage.getItem("app_was_updated")) {
+  sessionStorage.removeItem("app_was_updated");
+  sessionStorage.removeItem("chunk_reload");
+  showToast("App updated in the background.");
+}
+```
+
+No abrupt reload. No confused user. Just a quiet notification that something was refreshed, and life goes on.
+
+---
+
+## The actual lesson
+
+I'd been using Next.js long enough that I'd stopped thinking about a whole class of problems. The framework handled them silently — build ID handshakes, chunk grace periods, hard navigations on mismatch — and I had no idea any of it was happening.
+
+Moving to Vite + React didn't introduce a bug. It removed a solution I didn't know I had.
+
+> Frameworks aren't magic. They're just someone else's accumulated scar tissue. When you drop to a lower-level tool, you inherit everything the framework was quietly handling for you.
+
+That's not an argument for always using a framework. It's an argument for knowing exactly what you're giving up when you don't — and building it back deliberately, with intent, so the next engineer on the team doesn't spend a Tuesday afternoon staring at a screenshot wondering why reload fixes everything.
+
+---
+
+*Written from a real incident at Purpose Green. The fix has been in production since and hasn't fired once — which is either because it works, or because no one deploys during peak hours anymore. Possibly both.*
