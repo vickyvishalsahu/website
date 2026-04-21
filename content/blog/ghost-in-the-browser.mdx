@@ -58,13 +58,13 @@ We had code splitting everywhere — sensible for a large app. The settings page
 
 Here's what happens when a user visits the app before your deploy, then navigates to a lazy-loaded route *after* your deploy:
 
-```
-user     →  clicks "Settings"
-browser  →  import('/assets/settings.abc123.js')
-vercel   →  404 — that file doesn't exist anymore
-react    →  Failed to fetch dynamically imported module
-user     →  sees white flash, refreshes, everything works
-```
+<div className="not-prose my-6 rounded-lg border border-zinc-200 bg-zinc-50 px-6 py-5 font-mono text-sm leading-loose">
+  <div className="flex gap-6"><span className="w-16 shrink-0 text-zinc-400">user</span><span className="text-zinc-700">clicks "Settings"</span></div>
+  <div className="flex gap-6"><span className="w-16 shrink-0 text-zinc-400">browser</span><span className="text-zinc-700">import('/assets/settings.abc123.js')</span></div>
+  <div className="flex gap-6"><span className="w-16 shrink-0 text-zinc-400">vercel</span><span className="text-red-500">404 — that file doesn't exist anymore</span></div>
+  <div className="flex gap-6"><span className="w-16 shrink-0 text-zinc-400">react</span><span className="text-red-500">Failed to fetch dynamically imported module</span></div>
+  <div className="flex gap-6"><span className="w-16 shrink-0 text-zinc-400">user</span><span className="text-zinc-700">sees white flash, refreshes, everything works</span></div>
+</div>
 
 The new deploy replaced `settings.abc123.js` with `settings.xyz789.js`. The old file is gone. The user's browser has no idea. It asks for something that no longer exists, React throws, and the error reaches the screen before anything can catch it.
 
@@ -80,9 +80,9 @@ This is where I had a small revelation about what frameworks actually do for you
 
 Next.js is a framework — it owns both the server and the client runtime. On every client-side route transition, the Next.js client quietly checks in with the server:
 
-```
-GET /_next/data/[buildId]/settings.json
-```
+<div className="not-prose my-6 rounded-lg border border-zinc-200 bg-zinc-50 px-6 py-5 font-mono text-sm">
+  <span className="text-emerald-600 font-medium">GET</span><span className="text-zinc-400"> </span><span className="text-zinc-700">/_next/data/[buildId]/settings.json</span>
+</div>
 
 If the `buildId` in the response doesn't match what the client has baked in, Next.js doesn't attempt a lazy chunk load at all. It performs a hard navigation — fresh HTML, fresh bundle, clean slate. The user barely notices. No flash, no error.
 
