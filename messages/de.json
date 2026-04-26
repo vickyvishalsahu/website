@@ -70,6 +70,10 @@
     "educationTitle": "Ausbildung",
     "cvLabel": "Lebenslauf herunterladen"
   },
+  "openSource": {
+    "title": "Open Source Projekte",
+    "subtitle": "Dinge, die ich für mich selbst gebaut habe — echte Probleme, echter Code."
+  },
   "blog": {
     "title": "Blog",
     "description": "Gedanken zu Webentwicklung, Design und Tools",

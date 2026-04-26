@@ -74,6 +74,45 @@ export const education = [
   },
 ] as const;
 
+export type Project = {
+  name: string;
+  tagline: string;
+  description: string;
+  tags: readonly string[];
+  status: "live" | "in-progress";
+  github: string;
+};
+
+export const projects: readonly Project[] = [
+  {
+    name: "Radio MVP",
+    tagline: "Music that fits your moment. No controls. No queue. Press play.",
+    description:
+      "A Spotify-backed radio that reads your context — time, location, weather, motion — and plays what fits. No playlists, no algorithm to train. A separate Fastify backend handles persistent workers, Redis session state, and a Claude-powered music intelligence layer.",
+    tags: ["Next.js", "Fastify", "Redis", "Spotify API", "Claude AI", "PostgreSQL"],
+    status: "in-progress",
+    github: "https://github.com/vickyvishalsahu/radio-mvp",
+  },
+  {
+    name: "Portfolio MVP",
+    tagline: "All your investments in one place, automatically.",
+    description:
+      "Reads broker confirmation emails from Gmail via OAuth, parses transactions with Claude AI, and shows your full portfolio — holdings, P&L, allocation — normalised to EUR. Supports Scalable Capital, Zerodha, CAMS, Coinbase, and Binance. No manual input.",
+    tags: ["Next.js", "Claude AI", "Gmail API", "SQLite", "TypeScript"],
+    status: "live",
+    github: "https://github.com/vickyvishalsahu/portfolio-mvp",
+  },
+  {
+    name: "Garmin Cricket",
+    tagline: "Live cricket scores on your wrist.",
+    description:
+      "A Garmin watch widget backed by a Cloudflare Worker that fetches live match data from CricAPI, normalises it, caches it via Cloudflare KV, and serves it to the watch. The watch app is written in Monkey C.",
+    tags: ["Cloudflare Workers", "Garmin Connect IQ", "Monkey C", "KV Cache", "JavaScript"],
+    status: "live",
+    github: "https://github.com/vickyvishalsahu/Garmin-cricket",
+  },
+];
+
 export const cvLink = "/cv.pdf";
 
 export const contactLinks = [

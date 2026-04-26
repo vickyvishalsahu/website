@@ -70,6 +70,10 @@
     "educationTitle": "Education",
     "cvLabel": "Download CV"
   },
+  "openSource": {
+    "title": "Open Source Projects",
+    "subtitle": "Things I've built for myself — real problems, real code."
+  },
   "blog": {
     "title": "Blog",
     "description": "Thoughts on web development, design, and tools",
