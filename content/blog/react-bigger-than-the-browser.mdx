@@ -1,0 +1,63 @@
+---
+title: "React Has Always Been Bigger Than the Browser"
+date: "2026-04-27"
+description: "Finding React inside a terminal CLI cracked open a question I'd stopped asking: what does React actually do? The answer is narrower and more elegant than years of browser work had led me to believe."
+tags: ["react", "architecture", "frontend"]
+pinned: true
+new: true
+highlight: "The best abstractions hold up outside their original context."
+---
+
+I have been using generative AI for software development for about two years now. And like most people, I started in chat windows — pasting code, asking questions, reading back answers. It worked. But it always felt like I was describing the cockpit to someone standing outside the plane.
+
+About six months ago, that changed. Our team at Purpose Green was early and deliberate about adopting AI tooling, and one of the shifts we made was moving from chat interfaces to working directly in the terminal. It sounds small. It isn't.
+
+The difference is hard to overstate. Going from a chat UI to a terminal-native AI felt like going from watching a Formula 1 race on TV to sitting in the car. Same sport. Completely different experience. The terminal is where the real system lives — files, git, network, process control, the entire Unix surface area — all of it within reach. Interacting with a model from there felt like a genuine upgrade to how I build software.
+
+That's where the fascination started. Not with the AI itself, but with *how* the terminal UI was built.
+
+---
+
+## Wait, Is That React?
+
+Somewhere in digging through Claude Code, I found it: React. Running in a terminal. No browser. No DOM. Just React, humming away inside a command-line interface.
+
+I have been writing React for years. I know the loop well — you write components, React reconciles the virtual tree, and the browser handles everything else. Layout. Painting. Input. Rendering. That browser contract is so familiar, so baked into muscle memory, that it's easy to forget it's a contract at all. Easy to start thinking React *is* a browser thing.
+
+It isn't.
+
+React has been used in mobile apps, in-car dashboards, and even in some high-end smart appliances. But the terminal caught me off guard — which, honestly, it probably shouldn't have, because the terminal is one of the most natural environments for this kind of rendering model. Text in, text out, high update frequency, minimal layout complexity. It's almost a cleaner fit than the browser.
+
+---
+
+## What React Actually Does
+
+Here's the thing that terminal React makes obvious: React is a reconciliation engine. That's it. That's the job.
+
+React tracks your component tree, figures out what changed, and hands a description of those changes to whatever is underneath it. In the browser, what's underneath is the DOM. React says "this node changed," and the browser figures out how to repaint pixels on screen.
+
+In a terminal, what's underneath is a custom host — one that speaks in rows and columns, ANSI escape codes, and screen buffers, not in divs and stylesheets. React doesn't care. It still does its job: track state, manage effects, run the reconciler, produce a diff. Then it hands that diff to the terminal renderer, which does the actual work of painting characters to your screen.
+
+The renderer is doing heavy lifting here — layout calculation, buffer management, patch generation, frame scheduling. It's not a toy. But what's striking is that React slots into that system cleanly, because it was never really about the browser to begin with. The browser was always just one possible host.
+
+---
+
+## Why This Is Worth Thinking About
+
+There's a version of a senior engineer who has been writing React for five or six years and has built up a very precise mental model of how it works. Browser components. Props down, events up. useEffect for side effects. That model is correct — and it's also incomplete.
+
+Terminal React is a useful corrective. It forces the question: *what is React actually responsible for?* And the answer is narrower and more elegant than the browser experience suggests. React owns the component lifecycle, state transitions, and reconciliation. Everything else — how you lay things out, how you write to the screen, how you handle input — is the renderer's problem.
+
+That separation is the design insight. It's why React can exist comfortably in a terminal, a native mobile app, a car display, or a browser. The reconciliation logic stays the same. Only the commit target changes.
+
+---
+
+## The Part That Stuck With Me
+
+I think what I find genuinely interesting about Claude Code's terminal UI isn't that it uses React. It's that it uses React *correctly*, in the sense that it treats React as one piece of a larger system rather than the whole thing.
+
+React handles what it's good at. The renderer handles what React shouldn't have to care about. The result is a terminal interface that feels fast, stable, and weirdly natural — which is exactly what you want when you're deep in a debugging session at midnight and you need the tool to just *work*.
+
+The implementation details are worth studying if you care about rendering architecture. But even if you don't, there's a simpler takeaway: the best abstractions hold up outside their original context. React reconciliation was a good idea in 2013 for the browser. It's still a good idea in a terminal in 2025.
+
+That's usually the sign of something well-designed.
