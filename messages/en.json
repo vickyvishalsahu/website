@@ -1,9 +1,9 @@
 {
   "site": {
-    "name": "Vicky",
-    "title": "Vicky | Portfolio",
-    "titleTemplate": "%s | Vicky",
-    "description": "Developer portfolio and blog"
+    "name": "Vicky Vishal Sahu",
+    "title": "Vicky Vishal Sahu | Senior Frontend Developer",
+    "titleTemplate": "%s | Vicky Vishal Sahu",
+    "description": "Senior Frontend Developer based in Berlin, specialising in React, TypeScript, and Next.js."
   },
   "nav": {
     "home": "Home",
