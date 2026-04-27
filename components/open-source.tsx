@@ -17,11 +17,8 @@ export async function OpenSource() {
             className="group flex flex-col rounded-xl border border-zinc-200 p-5 transition-colors hover:border-zinc-300"
           >
             <span
-              className={`self-start rounded-full px-2.5 py-0.5 text-xs font-semibold text-white ${
-                project.status === "live" ? "bg-zinc-900" : "bg-blue-600"
-              }`}
+              className={`self-start rounded-full px-2.5 py-0.5 text-xs font-semibold text-white`}
             >
-              {project.status === "live" ? "Live" : "In Progress"}
             </span>
             <h3 className="mt-3 font-semibold text-zinc-900">{project.name}</h3>
             <p className="mt-1 text-sm leading-relaxed text-zinc-500">{project.tagline}</p>

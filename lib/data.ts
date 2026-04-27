@@ -4,7 +4,14 @@ export const navLinks = [
   { href: "/about", key: "about" },
 ] as const;
 
-export const stack = ["TypeScript", "React", "Next", "NodeJS", "Tailwind CSS", "PostgreSQL"] as const;
+export const stack = [
+  "TypeScript",
+  "React",
+  "Next",
+  "NodeJS",
+  "Tailwind CSS",
+  "PostgreSQL",
+] as const;
 
 export const experience = [
   {
@@ -79,7 +86,6 @@ export type Project = {
   tagline: string;
   description: string;
   tags: readonly string[];
-  status: "live" | "in-progress";
   github: string;
 };
 
@@ -90,7 +96,7 @@ export const projects: readonly Project[] = [
     description:
       "A Spotify-backed radio that reads your context — time, location, weather, motion — and plays what fits. No playlists, no algorithm to train. A separate Fastify backend handles persistent workers, Redis session state, and a Claude-powered music intelligence layer.",
     tags: ["Next.js", "Fastify", "Redis", "Spotify API", "Claude AI", "PostgreSQL"],
-    status: "in-progress",
+
     github: "https://github.com/vickyvishalsahu/radio-mvp",
   },
   {
@@ -99,7 +105,6 @@ export const projects: readonly Project[] = [
     description:
       "Reads broker confirmation emails from Gmail via OAuth, parses transactions with Claude AI, and shows your full portfolio — holdings, P&L, allocation — normalised to EUR. Supports Scalable Capital, Zerodha, CAMS, Coinbase, and Binance. No manual input.",
     tags: ["Next.js", "Claude AI", "Gmail API", "SQLite", "TypeScript"],
-    status: "live",
     github: "https://github.com/vickyvishalsahu/portfolio-mvp",
   },
   {
@@ -108,7 +113,6 @@ export const projects: readonly Project[] = [
     description:
       "A Garmin watch widget backed by a Cloudflare Worker that fetches live match data from CricAPI, normalises it, caches it via Cloudflare KV, and serves it to the watch. The watch app is written in Monkey C.",
     tags: ["Cloudflare Workers", "Garmin Connect IQ", "Monkey C", "KV Cache", "JavaScript"],
-    status: "live",
     github: "https://github.com/vickyvishalsahu/Garmin-cricket",
   },
 ];
@@ -117,8 +121,16 @@ export const cvLink = "/cv.pdf";
 
 export const contactLinks = [
   { label: "Email", href: "mailto:hello@example.com", value: "hello@example.com" },
-  { label: "GitHub", href: "https://github.com/vickyvishalsahu", value: "github.com/vickyvishalsahu" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/vickyvishal/", value: "linkedin.com/in/zephyr" },
+  {
+    label: "GitHub",
+    href: "https://github.com/vickyvishalsahu",
+    value: "github.com/vickyvishalsahu",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/vickyvishal/",
+    value: "linkedin.com/in/zephyr",
+  },
   { label: "Twitter", href: "https://twitter.com", value: "@zephyr" },
 ] as const;
 
