@@ -91,13 +91,13 @@ export type Project = {
 
 export const projects: readonly Project[] = [
   {
-    name: "Radio MVP",
-    tagline: "Music that fits your moment. No controls. No queue. Press play.",
+    name: "Tuned",
+    tagline: "One channel. No choices. Just listen.",
     description:
-      "A Spotify-backed radio that reads your context — time, location, weather, motion — and plays what fits. No playlists, no algorithm to train. A separate Fastify backend handles persistent workers, Redis session state, and a Claude-powered music intelligence layer.",
+      "A context-aware music player built on Spotify. Reads your moment — time, location, weather, movement — and plays what fits. No playlists, no algorithm to train. Monorepo with a Fastify backend handling BullMQ workers, Redis session state, and a Claude-powered music intelligence layer.",
     tags: ["Next.js", "Fastify", "Redis", "Spotify API", "Claude AI", "PostgreSQL"],
 
-    github: "https://github.com/vickyvishalsahu/radio-mvp",
+    github: "https://github.com/vickyvishalsahu/tuned",
   },
   {
     name: "Portfolio MVP",
