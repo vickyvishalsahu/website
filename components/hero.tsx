@@ -1,12 +1,9 @@
 import { getTranslations } from "next-intl/server";
-import { Typewriter } from "@/components/typewriter";
 import { PhotoPlaceholder } from "@/components/photo-placeholder";
 import { stack } from "@/lib/data";
 
 export async function Hero() {
   const t = await getTranslations("home");
-
-  const taglines = [t("taglines.0"), t("taglines.1"), t("taglines.2"), t("taglines.3"), t("taglines.4")];
 
   return (
     <section className="flex items-center justify-between gap-16 pt-16 pb-24 sm:pt-24 sm:pb-32">
@@ -14,11 +11,7 @@ export async function Hero() {
         <h1 className="mb-2 text-5xl font-medium tracking-tight text-zinc-900">
           {t("greeting")} {t("name")}.
         </h1>
-        <Typewriter
-          texts={taglines}
-          className="mb-6 text-xl font-medium text-zinc-500"
-          triggerOn="hover"
-        />
+        <p className="mb-6 text-xl font-medium text-zinc-500">{t("tagline")}</p>
         <p className="mb-8 text-base leading-relaxed text-zinc-600">
           {t("description")}
         </p>

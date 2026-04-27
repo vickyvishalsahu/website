@@ -13,13 +13,7 @@
   "home": {
     "greeting": "Hi, ich bin",
     "name": "Vicky",
-    "taglines": {
-      "0": "Ich schreibe Code, der live geht — nicht nur für Demos.",
-      "1": "Mir ist wichtig, warum wir etwas bauen, nicht nur wie.",
-      "2": "Ich baue in Schritten, die klein genug sind, um sie rückgängig zu machen.",
-      "3": "Zusammenarbeit ist mein liebster Teil der Arbeit.",
-      "4": "Ich suche mein nächstes Team!"
-    },
+    "tagline": "Ich suche mein nächstes Team!",
     "description": "Ich bin Vicky, ein Senior Software Developer in Berlin. Ich bin spezialisiert auf React und TypeScript — ich baue Interfaces, die schnell, sauber und wirklich angenehm zu benutzen sind. Ich habe Produkte in den Bereichen E-Commerce, Proptech und Developer Tooling ausgeliefert und arbeite am besten, wenn Design, Backend und Produkt alle im selben Raum sind. Aktuell beschäftige ich mich intensiv mit KI-gestützter Entwicklung — um schneller zu arbeiten, ohne an Qualität zu verlieren.",
     "viewWork": "LinkedIn",
     "getInTouch": "Lebenslauf herunterladen",

@@ -20,7 +20,7 @@ export async function OpenSource() {
               className={`self-start rounded-full px-2.5 py-0.5 text-xs font-semibold text-white`}
             >
             </span>
-            <h3 className="mt-3 font-semibold text-zinc-900">{project.name}</h3>
+            <h3 className="font-semibold text-zinc-900">{project.name}</h3>
             <p className="mt-1 text-sm leading-relaxed text-zinc-500">{project.tagline}</p>
             <div className="mt-3 flex flex-wrap gap-1.5">
               {project.tags.slice(0, 3).map((tag) => (

@@ -13,13 +13,7 @@
   "home": {
     "greeting": "Hi, I'm",
     "name": "Vicky",
-    "taglines": {
-      "0": "I write code that ships, not the code that demos.",
-      "1": "I care about why we're building it, not just how.",
-      "2": "I build in steps small enough to reverse.",
-      "3": "Collaboration is my favourite part of the job.",
-      "4": "I'm looking for my next team!"
-    },
+    "tagline": "I'm looking for my next team!",
     "description": "I'm Vicky, a Senior Software Developer based in Berlin. I specialise in React and TypeScript — building interfaces that are fast, clean, and actually enjoyable to use. I've shipped products across e-commerce, proptech, and developer tooling, and I work best when design, backend, and product are all in the same room. These days I'm also deep into AI-assisted development — using it to move faster without losing quality.",
     "viewWork": "LinkedIn",
     "getInTouch": "Download CV",
