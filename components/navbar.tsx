@@ -14,7 +14,8 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-zinc-200 bg-white/80 backdrop-blur-sm">
       <nav className="mx-auto flex h-16 max-w-4xl px-6 items-center justify-between">
         <Link href="/" className="text-lg font-semibold tracking-tight">
-          {tSite("name")}
+          <span className="hidden sm:inline">{tSite("name")}</span>
+          <span className="sm:hidden">Vicky</span>
         </Link>
         <div className="flex items-center gap-1">
           {navLinks.map((link) => (
