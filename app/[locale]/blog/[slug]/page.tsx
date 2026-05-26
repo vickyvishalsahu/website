@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypePrettyCode from "rehype-pretty-code";
 import { getAllPosts, getPostBySlug } from "@/lib/mdx";
+import { SyncRunDiagram } from "@/components/sync-run-diagram";
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -57,6 +58,7 @@ export default async function BlogPostPage({ params }: Props) {
               rehypePlugins: [[rehypePrettyCode, { theme: "github-light" }]],
             },
           }}
+          components={{ SyncRunDiagram }}
         />
       </div>
       {post.meta.mediumUrl && (

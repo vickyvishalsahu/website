@@ -1,0 +1,130 @@
+---
+title: "The AI email parser worked. It was also expensive and kind of stupid."
+date: "2026-05-26"
+description: "Building a portfolio tracker that reads Gmail for broker confirmations — and the AI harnessing pattern that made it cheap to run at scale."
+tags: ["ai", "architecture", "side-project"]
+pinned: false
+new: true
+highlight: "You're not replacing AI with rules. You're using AI to write better rules than you'd ever write by hand."
+---
+
+I'm building a personal investment dashboard. The idea is simple: every trade I've ever made has left an email trail — Scalable Capital sends a confirmation, Zerodha sends a contract note, CAMS sends an SIP receipt. Instead of logging into four platforms and manually reconciling numbers, I want one page that reads my Gmail, finds those emails, and builds a live portfolio view from them.
+
+The core pipeline: pull emails → send to Claude → get back structured JSON with ticker, quantity, price, date → store it → fetch live prices → render dashboard. Clean, composable, and genuinely useful.
+
+Then I looked at my inbox.
+
+---
+
+## 4,000 emails. For a small investor.
+
+I want to be clear about something: I am not an active trader. I'm not sitting at a desk moving positions every morning. I have a few SIPs running in Indian mutual funds, some ETFs on Scalable Capital, a couple of direct stock positions. By any reasonable measure, a small investor and a disciplined spender.
+
+And yet — 4,000 emails.
+
+Because every broker relationship you start generates a relationship's worth of email. Welcome to Zerodha. Please complete your KYC. Here's your account statement for March. We've updated our fee structure. A reminder about your nominee. We've updated our privacy policy (this one, apparently, from 2021, still unread). A feature announcement. A newsletter I never subscribed to. And somewhere in there, the actual confirmation that I bought 10 units of HDFC Mid-Cap Opportunities on a specific date at a specific NAV.
+
+So the ratio of useful-to-noise is brutal. Out of 4,000 emails, maybe 200 actually contain transaction data. The rest is noise — polite, well-formatted, from-trusted-senders noise that a keyword filter can't easily distinguish from the real thing.
+
+The naive approach: parse all 4,000. It works. You get the transactions. You also pay an API bill that makes you wince and wait several minutes staring at a progress bar. I did this once, confirmed it worked, then immediately started thinking about how to never do it again.
+
+---
+
+## Why we default to expensive models — and why that's a trap
+
+Here's a pattern I see everywhere in how people build with AI, including how I initially approached this: **context laziness**.
+
+The idea is well-intentioned. LLMs are capable. The newer, larger models are remarkably good at understanding messy, ambiguous inputs. So the instinct is: throw everything at the best model available, let it figure it out. GPT-4. Claude Opus. Whatever's at the top of the benchmark. If something goes wrong, the answer is usually "upgrade to the bigger model."
+
+This is expensive. More importantly, it's architecturally lazy — and laziness here has real costs.
+
+When you use a large model as a catch-all, you're essentially paying reasoning rates for classification tasks. You're spending tokens on context that a simpler system could have resolved in microseconds. You're also creating a single point of failure: when the model hallucinates (and it will), or when it confidently returns `unparseable: false` on a marketing email it misread as a trade, there's no guardrail. The pipeline just continues with bad data.
+
+There's also a subtler problem. Larger models are slower. In a pipeline where you're processing hundreds of inputs, that latency compounds. And because the model handles everything, you never build up any structured knowledge about your data — every run starts from zero.
+
+**AI harnessing is the alternative.** The term describes a specific way of thinking about AI in a pipeline: instead of using AI as a single omnipotent layer, you use it precisely and judiciously. You design the workflow so that deterministic code handles everything it can, lightweight models handle classification and filtering, and expensive models handle only what genuinely requires reasoning. Each layer has a clear job. Each failure has a handler. Nothing gets passed to the next stage unless it needs to be there.
+
+The mental model I find useful: think of it like a factory line with quality gates. Raw material enters. It goes through progressively more expensive inspection stages. But most material gets routed out early — not because it failed, but because it was already handled at a cheaper gate. The expensive final stage sees only the genuinely hard cases.
+
+---
+
+## Three levels, three different tools
+
+In my portfolio parser, this translates to a three-level pipeline.
+
+**Level 1 — deterministic filter.** Does this email come from a known broker domain? Does the subject line contain any transaction-related keyword? This is pure TypeScript. No API call, no latency, no cost. A Zerodha newsletter and a Zerodha contract note both come from `zerodha.com`, but the contract note has "Contract Note" in the subject. The newsletter has "Market Wrap" or "New Feature" or something similarly dismissible. A simple lookup filters maybe 40% of incoming email before any AI touches it.
+
+**Level 2 — pattern cache.** This is where the harnessing becomes interesting. After the first sync — expensive, cold, comprehensive — I have something valuable: labeled data. Every email that came back `unparseable: true` from the LLM is a data point. These are the emails the model read in full, processed with expensive reasoning, and concluded: not a transaction. That work happened. I paid for it. And then I threw the result away.
+
+The pattern cache means I don't throw it away. After each batch, a single cheap Claude Haiku call reads the list of subjects and senders that returned unparseable and extracts generalizable skip rules:
+
+```json
+[
+  {
+    "sender_contains": "zerodha.com",
+    "subject_contains": ["market wrap", "new feature", "kyc reminder"],
+    "observed": 8
+  },
+  {
+    "sender_contains": "scalable.capital",
+    "subject_contains": ["newsletter", "product update", "we've updated"],
+    "observed": 14
+  }
+]
+```
+
+These rules live in the database. On every subsequent sync, emails matching them are skipped before any LLM call runs. The expensive model wrote the rules once. The rules now run for free, forever.
+
+There's a confidence threshold here that matters: a rule only enters the cache if it was observed across at least 5 emails with a 100% unparseable rate. One marketing email that happened to contain the word "bought" doesn't block that word permanently. You need a pattern, not a coincidence.
+
+**Level 3 — LLM parse.** Only emails that pass both gates reach here. The expensive model, used precisely, on inputs that genuinely require it: ambiguous subjects, multi-asset confirmations, PDFs with contract notes, emails where the format doesn't match any known template. This is where reasoning earns its cost.
+
+---
+
+## The flywheel — and why it matters
+
+Here's the part that felt like a genuine insight when I worked it out.
+
+The first sync is the investment. You process everything, you pay for it, and in exchange you get two things: your parsed transactions, and a trained set of skip rules that make every subsequent sync cheaper. The unparseable results aren't waste — they're the cost of building the filter.
+
+By the second sync, the pattern cache catches the noise. You're only running LLM calls on emails that slipped through two previous gates. By the third sync, you're in steady state: each new email gets checked against a filter that was trained on hundreds of examples of your specific broker emails, your specific noise patterns, your actual inbox.
+
+The numbers roughly look like this:
+
+<SyncRunDiagram />
+
+What's happening here is that the AI is doing two different jobs on run 1. It's parsing transactions, which is the thing you asked it to do. But it's also, implicitly, labeling your inbox — distinguishing signal from noise, at scale, in a way that a human would take hours to do manually. The pattern learner harvests that labeling work and converts it into deterministic rules that cost nothing to run.
+
+The product framing is "syncs get smarter over time." That's not a marketing line. It's just what happens when you capture the outputs of expensive computation and use them to make future computation cheaper.
+
+---
+
+## The trust problem you can't skip
+
+One thing worth naming explicitly: if the system is silently skipping emails based on machine-learned rules, and it gets one wrong — misses a real trade confirmation from a sender whose subject line looked like noise — you have no way to know.
+
+That's a trust hole. And for a financial tool, it's a serious one.
+
+The minimum fix is cheap: after every sync, surface a count. "Parsed 12 new transactions. Skipped 43 emails using learned patterns." Link it to a reviewable list. The user doesn't need a full audit UI on day one. They need to know that decisions are being made, how many, and that they can inspect them. Nothing should feel like a black box.
+
+If this ever became a multi-user product, the bar would be higher — skip rules need to be user-reviewable and user-overridable before you could responsibly deploy them at scale. For a personal tool, visibility is enough.
+
+---
+
+## The broader pattern
+
+The specific mechanics here — three-level gates, pattern cache, Haiku for rule extraction, Sonnet for genuine parsing — are less important than the underlying principle.
+
+Wherever you have a pipeline running an LLM over a large, messy input set, there are almost certainly opportunities to:
+
+1. Filter deterministically before any AI runs
+2. Use a lightweight model for classification before a heavy model reasons
+3. Capture the outputs of expensive inference and use them to write cheaper rules
+
+The first pass is the expensive one. But what you get back isn't just answers — it's labeled data. Use AI to read that data and extract structure. Let the structure run without AI from that point forward.
+
+That's the inversion that makes this feel like an insight rather than just an optimization: you're not replacing AI with rules. You're using AI to write better rules than you'd ever write by hand — rules trained on your actual data, your actual noise patterns, your specific inbox. And once those rules exist, they cost nothing to run.
+
+---
+
+*Building a cross-border portfolio tracker for NRIs and expats managing assets across India, the EU, and the US. Stack: Next.js, Claude API, SQLite, Gmail OAuth.*
