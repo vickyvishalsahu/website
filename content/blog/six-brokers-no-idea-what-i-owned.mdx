@@ -1,0 +1,93 @@
+---
+title: "I had six brokers and no idea what I actually owned"
+date: "2026-07-05"
+description: "Building a multi-broker net worth tracker taught me the hard part was never the math — it was deciding what to trust, what to merge, and what to refuse to build."
+tags: ["product", "architecture", "side-project", "privacy"]
+pinned: true
+new: true
+highlight: "A wrong number gets caught. A confidently wrong number doesn't — and in a financial tool, that's the one you have to design against."
+---
+
+My partner asked me a fair question back in April: are we okay, financially? I said "let me check" and opened six tabs.
+
+Zerodha for Indian equities. Scalable Capital for European ETFs. CAMS for the mutual fund statements that arrive from a registrar, not the fund house you'd expect. Binance and Coinbase for crypto. And a sixth account I'd opened for a single fund two years ago and genuinely forgotten existed, until its monthly statement resurfaced in my inbox like a reminder of a decision I no longer remembered making.
+
+Six tabs, two currencies, and about four minutes of mental arithmetic later, I gave her a number. I was maybe 80% sure it was right. That's not an answer. That's a guess with a decimal point.
+
+---
+
+## The math was never the hard part
+
+Adding up six numbers isn't an engineering problem. I could have done it in a spreadsheet in less time than it took to open the sixth tab. So I want to be honest about what I actually built, because "I made an app that shows my net worth" undersells it, and "I built an AI pipeline that reads my Gmail" — which I've written about separately — oversells the wrong part.
+
+The actual work was deciding what the app was allowed to assume, what it was allowed to guess, and what it should refuse to do at all. Three decisions did more for this project than any line of parsing logic.
+
+---
+
+## Decision one: nothing leaves the device
+
+The fast way to build this is the aggregator way — plug into something Plaid-shaped, put transactions in a hosted database, add an account system so I can check my net worth from my phone in bed. That's a weekend of work with the right SDK.
+
+I didn't build that. Not because I was worried about security in the abstract, but because a net worth tracker is, before anything else, a request for someone to trust you with the complete shape of their financial life — every account, every balance, every trade. Centralizing that on a server I control doesn't just create a security surface, it creates a promise: *trust me to keep protecting this, correctly, forever.* That's not a promise I'm in a position to make for a side project, and I don't think most side projects are.
+
+So the pipeline stops at my own machine. Gmail OAuth pulls the emails, Claude turns them into structured transactions, and all of it lands in a SQLite file that never leaves my laptop. There's no account to breach because there's no account. There's no server holding my net worth because there's no server. The inconvenience — I can only check this from one machine — is the point, not a bug I haven't gotten around to fixing.
+
+---
+
+## Decision two: the number I refused to build
+
+The obvious feature for a cross-border net worth tracker is one hero number: total net worth, in euros, right at the top. I built it. It felt great for about a day.
+
+Then I looked at what that number was actually doing. Converting ₹8 lakh in a Zerodha SIP into euros at today's FX rate produces a precise-looking figure that isn't true in any way that matters — I haven't sold the fund, I haven't moved the money, I haven't paid the conversion spread, and India and Germany tax that gain differently depending on when I touch it. The blended number wasn't wrong, exactly. It was confident about something that isn't knowable yet. In a financial tool, that's worse than being wrong — a wrong number gets caught, a falsely confident one doesn't.
+
+I deleted the rollup. Every holding now shows in its source currency. Totals group by currency — euros with euros, rupees with rupees — and the app never silently adds them together. It's a worse demo: someone glancing at the dashboard for three seconds doesn't get one satisfying number. It's the correct decision, because the number this app can no longer show me is exactly the number I shouldn't have been trusting in the first place.
+
+---
+
+## Decision three: same fund, six inboxes, one identity
+
+This is the decision that actually answers the question my partner asked.
+
+Here's the shape of the problem. The same mutual fund shows up in my inbox under at least two names — "HDFC Mid-Cap Opportunities Fund - Growth" in a SIP confirmation, "HDFC MIDCAP OPP FUND-GR" in a contract note from CAMS six months later — sometimes with a ticker attached, sometimes without one because whichever template generated that particular email didn't include it. Read literally, that's two or three different investments. It's obviously one.
+
+The instinct is to fix this upstream — make the parser smarter, make Claude recognize the strings mean the same thing. But the parser is already doing its job correctly; the variation exists because six brokers format their own emails six different ways, and no amount of prompt tuning changes that. The fix has to live downstream, as an explicit identity layer: group transactions by ticker when one exists, otherwise by a whitespace-and-case-normalized name, so the fragments collapse back into a single holding instead of pretending to be several.
+
+That surfaces a second, uglier problem. Once you group transactions that arrived from different emails, they can disagree about what the thing even *is*. One email calls it a mutual fund. Another, parsed from a messier subject line, gets tagged as equity. A holding can't have two asset types, so something has to decide:
+
+```ts
+const majorityAssetType = (transactions: TransactionRow[]): string => {
+  const counts = new Map<string, number>();
+  for (const transaction of transactions) {
+    counts.set(transaction.asset_type, (counts.get(transaction.asset_type) ?? 0) + 1);
+  }
+  let winner = transactions[0].asset_type;
+  let winnerCount = 0;
+  for (const [assetType, count] of counts) {
+    const beatsWinner = count > winnerCount;
+    const breaksTieToEquity = count === winnerCount && winner === 'mf' && assetType !== 'mf';
+    if (beatsWinner || breaksTieToEquity) {
+      winner = assetType;
+      winnerCount = count;
+    }
+  }
+  return winner;
+};
+```
+
+Majority vote, with one deliberate tie-break: when it's genuinely ambiguous, prefer equity over fund. Not because stocks are more common in my portfolio, but because the failure mode is asymmetric — showing a fund's price history under the wrong tab is a cosmetic annoyance, while quietly misclassifying an actual equity position changes what allocation and risk numbers the dashboard reports. When the system has to guess, it should guess in the direction that fails quietly, not the one that fails expensively.
+
+The same principle shows up one layer down. If a sell transaction lands in the database before its matching buy — which happens whenever I sync starting mid-history — the naive move is to compute a negative position and move on. Instead the app tracks it explicitly as a debt against future buys and flags it to me as an unresolved sell, rather than rendering a P&L number that's wrong and looks fine. A financial tool that fails has to fail loudly.
+
+---
+
+## What these three have in common
+
+None of these are features in the way a changelog would describe them. "Doesn't upload your data." "Doesn't show you a number." "Merges rows you didn't ask it to merge." None of that fits in a bullet point on a landing page. But they're the actual decisions that separate "an app that lists my transactions" from "an app that knows what I own" — and every one of them is a case of the software doing *less* than it technically could, on purpose.
+
+That's the part I didn't expect going in. I assumed the hard problems here would be parsing PDFs out of broker emails or wrangling three different currency APIs. Those problems exist, and they were real engineering work — but they were mechanical. The decisions that actually mattered were about what to refuse: refuse to centralize, refuse to fake precision, refuse to let six inboxes' worth of formatting inconsistency become six fictional holdings.
+
+My partner still doesn't have a single number. She has six, grouped by currency, and one honest holdings table that finally agrees with itself. Given what the alternative was — a confident, wrong euro figure — I'll take it.
+
+---
+
+*Building a cross-border portfolio tracker for NRIs and expats managing assets across India, the EU, and the US. Stack: Next.js, Claude API, SQLite, Gmail OAuth. [GitHub →](https://github.com/vickyvishalsahu/portfolio-mvp)*
