@@ -107,5 +107,9 @@
   "languageSwitcher": {
     "en": "EN",
     "de": "DE"
+  },
+  "latestPosts": {
+    "title": "Latest writing",
+    "allPosts": "All posts"
   }
 }

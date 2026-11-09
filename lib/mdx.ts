@@ -67,3 +67,7 @@ export function getPostBySlug(slug: string) {
     content,
   };
 }
+
+export function formatPostDate(date: string, locale: string, month: "long" | "short" = "long") {
+  return new Date(date).toLocaleDateString(locale, { year: "numeric", month, day: "numeric" });
+}
