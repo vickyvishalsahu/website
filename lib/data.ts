@@ -4,15 +4,6 @@ export const navLinks = [
   { href: "/about", key: "about" },
 ] as const;
 
-export const stack = [
-  "TypeScript",
-  "React",
-  "Next",
-  "NodeJS",
-  "Tailwind CSS",
-  "PostgreSQL",
-] as const;
-
 export const experience = [
   {
     company: "Purpose Green",

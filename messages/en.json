@@ -14,10 +14,11 @@
   "home": {
     "greeting": "Hi, I'm",
     "name": "Vicky",
-    "tagline": "I'm looking for my next team!",
-    "description": "I'm Vicky, a Senior Software Developer based in Berlin. I specialise in React and TypeScript — building interfaces that are fast, clean, and actually enjoyable to use. I've shipped products across e-commerce, proptech, and developer tooling, and I work best when design, backend, and product are all in the same room. These days I'm also deep into AI-assisted development — using it to move faster without losing quality.",
-    "viewWork": "LinkedIn",
-    "getInTouch": "Download CV",
+    "status": "Open to Senior and Lead frontend roles · Berlin or remote",
+    "role": "Senior Frontend Developer in Berlin. React, TypeScript, and the product thinking around them.",
+    "description": "I build interfaces that are fast, clean, and enjoyable to use, across e-commerce, proptech, and developer tooling. Lately I'm deep into AI-assisted development, shipping faster without lowering the bar.",
+    "cvCta": "Download CV",
+    "linkedinCta": "LinkedIn",
     "aboutTitle": "About",
     "aboutText": {
       "0": "10 years in, and the part I still enjoy most is the moment something clicks — when a feature feels right, the code is clean, and the team is proud of what shipped.",
