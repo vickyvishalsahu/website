@@ -9,9 +9,7 @@ export function ContactForm() {
 
   if (submitted) {
     return (
-      <p className="rounded-lg border border-zinc-200 p-6 text-center text-zinc-600">
-        {t("success")}
-      </p>
+      <p className="rounded-xl border border-border p-6 text-center text-muted">{t("success")}</p>
     );
   }
 
@@ -24,7 +22,7 @@ export function ContactForm() {
       className="space-y-4"
     >
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-zinc-700">
+        <label htmlFor="name" className="block text-sm font-medium text-fg">
           {t("nameLabel")}
         </label>
         <input
@@ -32,12 +30,12 @@ export function ContactForm() {
           id="name"
           name="name"
           required
-          className="mt-1 block w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm shadow-sm placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
+          className="mt-1 block w-full rounded-lg border border-border-strong bg-bg px-3 py-2 text-sm text-fg placeholder:text-subtle focus:border-accent focus:ring-1 focus:ring-accent focus:outline-none"
           placeholder={t("namePlaceholder")}
         />
       </div>
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-zinc-700">
+        <label htmlFor="email" className="block text-sm font-medium text-fg">
           {t("emailLabel")}
         </label>
         <input
@@ -45,12 +43,12 @@ export function ContactForm() {
           id="email"
           name="email"
           required
-          className="mt-1 block w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm shadow-sm placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
+          className="mt-1 block w-full rounded-lg border border-border-strong bg-bg px-3 py-2 text-sm text-fg placeholder:text-subtle focus:border-accent focus:ring-1 focus:ring-accent focus:outline-none"
           placeholder={t("emailPlaceholder")}
         />
       </div>
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-zinc-700">
+        <label htmlFor="message" className="block text-sm font-medium text-fg">
           {t("messageLabel")}
         </label>
         <textarea
@@ -58,13 +56,13 @@ export function ContactForm() {
           name="message"
           rows={4}
           required
-          className="mt-1 block w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm shadow-sm placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
+          className="mt-1 block w-full rounded-lg border border-border-strong bg-bg px-3 py-2 text-sm text-fg placeholder:text-subtle focus:border-accent focus:ring-1 focus:ring-accent focus:outline-none"
           placeholder={t("messagePlaceholder")}
         />
       </div>
       <button
         type="submit"
-        className="rounded-full bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700"
+        className="cursor-pointer rounded-lg bg-fg px-5 py-2.5 text-sm font-medium text-bg transition-opacity hover:opacity-85"
       >
         {t("submit")}
       </button>

@@ -25,11 +25,11 @@ export default async function BlogPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-16">
-      <h1 className="text-3xl font-bold tracking-tight">{t("title")}</h1>
-      <p className="mt-2 text-zinc-600">{t("subtitle")}</p>
+      <h1 className="font-display text-5xl tracking-tight text-fg">{t("title")}</h1>
+      <p className="mt-3 text-muted">{t("subtitle")}</p>
       <div className="mt-10 flex flex-col gap-4">
         {posts.length === 0 ? (
-          <p className="text-zinc-500">{t("emptyState")}</p>
+          <p className="text-muted">{t("emptyState")}</p>
         ) : (
           <>
             {pinned.map((post) => (
