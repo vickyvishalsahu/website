@@ -18,7 +18,7 @@ export const experience = [
     company: "Purpose Green",
     logo: "/purpose-green.png",
     location: "Berlin",
-    period: "Jul 2024 – Present",
+    period: "Jul 2024 – Jun 2026",
   },
   {
     company: "HeyCar",

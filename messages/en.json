@@ -34,27 +34,27 @@
     "experience": {
       "0": {
         "role": "Senior Frontend Developer",
-        "summary": "Built Green+ end-to-end — a proptech platform for large-scale property owners. Owned frontend architecture, CI, E2E testing, and AI integration."
+        "summary": "Led the frontend team that built Green+ from scratch, a portal for property investors covering energy analysis of around 3 million m² of building space. Owned onboarding, Stripe subscriptions and the frontend-backend contract, set up the monorepo and design system, and helped shape the team's Claude Code workflow."
       },
       "1": {
         "role": "Frontend Developer",
-        "summary": "Reusable UI components on a large-scale used car platform. Eliminated ~50% tech debt. Mentored junior engineers."
+        "summary": "Owned the Dutch market end to end on a used-car marketplace running in 5 markets, including a Core Web Vitals push. Led a design system upgrade used across all markets and cut the tech debt backlog by 50%."
       },
       "2": {
-        "role": "Software Developer",
-        "summary": "Internal tools for Salesforce CRM versioning — VSCode extension, user management APIs. Shipped full product in 16 months on pre-seed funding."
+        "role": "Software Developer (Contract)",
+        "summary": "Built a Salesforce CRM versioning product from concept to delivery, often as the sole engineer, on €135k of pre-seed funding over 16 months. Worked directly with the founder and built the core VSCode extension, Node.js APIs and a React Native companion app."
       },
       "3": {
         "role": "UI Engineer",
-        "summary": "Built admin platform for low-code chatbot creation from scratch. Engineered flow graph that cut chatbot-building time by ~50%."
+        "summary": "Built a low-code chatbot admin platform from scratch as an early engineer. Designed a visual flow-graph editor that removed three steps from bot building and cut build time by about 50%."
       },
       "4": {
         "role": "Software Engineer",
-        "summary": "Built UI platform for Mathematica Policy Research — previously handled entirely via raw API calls. Led a team of 2 interns."
+        "summary": "Built a web platform for Mathematica Policy Research that replaced raw API calls, so researchers could manage projects through a usable interface. Led two interns."
       },
       "5": {
         "role": "Web Developer",
-        "summary": "Wireframes to production. Interactive dashboards, landing pages, and an arcade game for product exposure."
+        "summary": "Built production web apps: data-driven dashboards, management interfaces, sign-up flows, landing pages and an interactive product demo."
       }
     },
     "skillsTitle": "Skills",

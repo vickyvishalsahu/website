@@ -34,27 +34,27 @@
     "experience": {
       "0": {
         "role": "Senior Frontend Developer",
-        "summary": "Green+ von Grund auf gebaut — eine Proptech-Plattform für große Immobilienbesitzer. Verantwortlich für Frontend-Architektur, CI, E2E-Tests und KI-Integration."
+        "summary": "Das Frontend-Team geleitet, das Green+ von Grund auf gebaut hat, ein Portal für Immobilieninvestoren mit Energieanalysen für rund 3 Millionen m² Gebäudefläche. Verantwortlich für Onboarding, Stripe-Abos und den Frontend-Backend-Vertrag, Monorepo und Designsystem aufgesetzt und den Claude-Code-Workflow des Teams mitgeprägt."
       },
       "1": {
         "role": "Frontend Developer",
-        "summary": "Wiederverwendbare UI-Komponenten auf einer großen Gebrauchtwagen-Plattform. ~50% technische Schulden eliminiert. Junior-Entwickler mentoriert."
+        "summary": "Den niederländischen Markt eines Gebrauchtwagen-Marktplatzes in 5 Märkten end to end verantwortet, inklusive Core-Web-Vitals-Optimierung. Ein Designsystem-Upgrade für alle Märkte geleitet und den Tech-Debt-Backlog um 50% reduziert."
       },
       "2": {
-        "role": "Software Developer",
-        "summary": "Interne Tools für Salesforce-CRM-Versionierung — VSCode-Erweiterung, Benutzerverwaltungs-APIs. Komplettes Produkt in 16 Monaten mit Pre-Seed-Finanzierung ausgeliefert."
+        "role": "Software Developer (Freiberuflich)",
+        "summary": "Ein Salesforce-CRM-Versionierungsprodukt vom Konzept bis zur Auslieferung gebaut, oft als einziger Entwickler, mit 135.000 € Pre-Seed-Finanzierung über 16 Monate. Direkt mit dem Gründer gearbeitet und die zentrale VSCode-Erweiterung, Node.js-APIs und eine React-Native-Begleit-App gebaut."
       },
       "3": {
         "role": "UI Engineer",
-        "summary": "Admin-Plattform für Low-Code-Chatbot-Erstellung von Grund auf gebaut. Flow-Graph entwickelt, der die Chatbot-Erstellungszeit um ~50% reduzierte."
+        "summary": "Als früher Entwickler eine Low-Code-Chatbot-Admin-Plattform von Grund auf gebaut. Einen visuellen Flow-Graph-Editor entworfen, der drei Schritte beim Bot-Bau einsparte und die Erstellungszeit um etwa 50% verkürzte."
       },
       "4": {
         "role": "Software Engineer",
-        "summary": "UI-Plattform für Mathematica Policy Research gebaut — zuvor vollständig über reine API-Aufrufe gehandhabt. Ein Team von 2 Praktikanten geleitet."
+        "summary": "Eine Webplattform für Mathematica Policy Research gebaut, die reine API-Aufrufe ersetzte, sodass Forschende Projekte über eine nutzbare Oberfläche verwalten konnten. Zwei Praktikanten angeleitet."
       },
       "5": {
         "role": "Web Developer",
-        "summary": "Von Wireframes zur Produktion. Interaktive Dashboards, Landing Pages und ein Arcade-Spiel zur Produktpräsentation."
+        "summary": "Produktive Web-Apps gebaut: datengetriebene Dashboards, Verwaltungsoberflächen, Sign-up-Flows, Landing Pages und eine interaktive Produktdemo."
       }
     },
     "skillsTitle": "Fähigkeiten",
