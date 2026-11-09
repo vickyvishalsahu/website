@@ -5,42 +5,42 @@ export async function OpenSource() {
   const t = await getTranslations("openSource");
 
   return (
-    <section className="pb-24 sm:pb-32">
-      <div className="mb-10">
-        <h2 className="text-2xl font-medium tracking-tight text-zinc-900">{t("title")}</h2>
-        <p className="mt-1 text-sm text-zinc-500">{t("subtitle")}</p>
+    <section className="pb-20 sm:pb-28">
+      <div className="mb-8">
+        <h2 className="font-display text-3xl tracking-tight text-fg">{t("title")}</h2>
+        <p className="mt-1 text-sm text-muted">{t("subtitle")}</p>
       </div>
       <div className="grid gap-4 sm:grid-cols-3">
         {projects.map((project) => (
-          <div
+          <a
             key={project.name}
-            className="group flex flex-col rounded-xl border border-zinc-200 p-5 transition-colors hover:border-zinc-300"
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex flex-col rounded-xl border border-border p-5 transition-colors hover:border-border-strong hover:bg-surface"
           >
-            <span
-              className={`self-start rounded-full px-2.5 py-0.5 text-xs font-semibold text-white`}
-            >
-            </span>
-            <h3 className="font-semibold text-zinc-900">{project.name}</h3>
-            <p className="mt-1 text-sm leading-relaxed text-zinc-500">{project.tagline}</p>
-            <div className="mt-3 flex flex-wrap gap-1.5">
+            <h3 className="font-semibold text-fg">{project.name}</h3>
+            <p className="mt-1 text-sm leading-relaxed text-muted">{project.tagline}</p>
+            <div className="mt-4 flex flex-wrap gap-1.5">
               {project.tags.slice(0, 3).map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700"
+                  className="rounded-full border border-border px-2.5 py-0.5 font-mono text-[11px] text-muted"
                 >
                   {tag}
                 </span>
               ))}
             </div>
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-auto pt-4 text-sm font-medium text-zinc-900 group-hover:underline"
-            >
-              View on GitHub &rarr;
-            </a>
-          </div>
+            <span className="mt-auto pt-5 text-sm font-medium text-fg transition-colors group-hover:text-accent">
+              GitHub{" "}
+              <span
+                aria-hidden="true"
+                className="inline-block transition-transform group-hover:translate-x-0.5"
+              >
+                &rarr;
+              </span>
+            </span>
+          </a>
         ))}
       </div>
     </section>
