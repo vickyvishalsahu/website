@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypePrettyCode from "rehype-pretty-code";
-import { getAllPosts, getPostBySlug } from "@/lib/mdx";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { formatPostDate, getAllPosts, getPostBySlug } from "@/lib/mdx";
 import { SyncRunDiagram } from "@/components/sync-run-diagram";
 
 interface Props {
@@ -24,52 +26,62 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogPostPage({ params }: Props) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) notFound();
+  const t = await getTranslations({ locale, namespace: "blog" });
 
   return (
-    <article className="mx-auto max-w-4xl px-6 py-16">
-      <header>
-        <time className="text-sm text-zinc-500">
-          {new Date(post.meta.date).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </time>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight">{post.meta.title}</h1>
-        <div className="mt-3 flex flex-wrap gap-1.5">
+    <article className="mx-auto max-w-2xl px-6 py-16">
+      <Link href="/blog" className="text-sm text-muted transition-colors hover:text-fg">
+        &larr; {t("backToBlog")}
+      </Link>
+      <header className="mt-8">
+        <div className="flex items-center gap-2 font-mono text-xs text-subtle">
+          <time>{formatPostDate(post.meta.date, locale)}</time>
+          <span aria-hidden="true">&middot;</span>
+          <span>
+            {post.meta.readingTime} {t("minRead")}
+          </span>
+        </div>
+        <h1 className="mt-3 font-display text-4xl leading-tight tracking-tight text-fg sm:text-5xl">
+          {post.meta.title}
+        </h1>
+        <div className="mt-4 flex flex-wrap gap-1.5">
           {post.meta.tags.map((tag: string) => (
             <span
               key={tag}
-              className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700"
+              className="rounded-full border border-border px-2.5 py-0.5 font-mono text-[11px] text-muted"
             >
               {tag}
             </span>
           ))}
         </div>
       </header>
-      <div className="prose prose-zinc mt-10 max-w-none prose-pre:border prose-pre:border-zinc-200 prose-pre:bg-zinc-50">
+      <div className="prose prose-stone mt-10 max-w-none dark:prose-invert prose-headings:font-display prose-headings:font-normal prose-headings:tracking-tight prose-a:text-accent prose-pre:border prose-pre:border-border">
         <MDXRemote
           source={post.content}
           options={{
             mdxOptions: {
-              rehypePlugins: [[rehypePrettyCode, { theme: "github-light" }]],
+              rehypePlugins: [
+                [rehypePrettyCode, { theme: { light: "github-light", dark: "github-dark" } }],
+              ],
             },
           }}
           components={{ SyncRunDiagram }}
         />
       </div>
       {post.meta.mediumUrl && (
-        <div className="mt-10 border-t border-zinc-200 pt-6">
+        <div className="mt-10 border-t border-border pt-6">
           <a
             href={post.meta.mediumUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-zinc-500 transition-colors hover:text-zinc-900"
+            className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg"
           >
-            <span className="text-lg" aria-hidden="true">👏</span>
+            <span className="text-lg" aria-hidden="true">
+              👏
+            </span>
             <span>Clap on Medium</span>
           </a>
         </div>

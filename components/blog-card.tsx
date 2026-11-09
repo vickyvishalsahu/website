@@ -1,26 +1,32 @@
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import type { PostMeta } from "@/lib/mdx";
+import { formatPostDate, type PostMeta } from "@/lib/mdx";
 
 export function BlogCard({ post }: { post: PostMeta }) {
+  const locale = useLocale();
+  const t = useTranslations("blog");
+
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group block rounded-lg border border-zinc-200 p-5 transition-colors hover:border-zinc-300"
+      className="group block rounded-xl border border-border p-5 transition-colors hover:border-border-strong hover:bg-surface"
     >
-      <time className="text-sm text-zinc-500">
-        {new Date(post.date).toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })}
-      </time>
-      <h3 className="mt-1 font-semibold">{post.title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-zinc-600">{post.description}</p>
+      <div className="flex items-center gap-2 font-mono text-xs text-subtle">
+        <time>{formatPostDate(post.date, locale)}</time>
+        <span aria-hidden="true">&middot;</span>
+        <span>
+          {post.readingTime} {t("minRead")}
+        </span>
+      </div>
+      <h3 className="mt-2 font-semibold text-fg transition-colors group-hover:text-accent">
+        {post.title}
+      </h3>
+      <p className="mt-2 text-sm leading-relaxed text-muted">{post.description}</p>
       <div className="mt-3 flex flex-wrap gap-1.5">
         {post.tags.map((tag) => (
           <span
             key={tag}
-            className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700"
+            className="rounded-full border border-border px-2.5 py-0.5 font-mono text-[11px] text-muted"
           >
             {tag}
           </span>
