@@ -1,9 +1,9 @@
 {
   "site": {
     "name": "Vicky Vishal Sahu",
-    "title": "Vicky Vishal Sahu | Senior Frontend Developer",
+    "title": "Vicky Vishal Sahu | Senior Product Engineer",
     "titleTemplate": "%s | Vicky Vishal Sahu",
-    "description": "Senior Frontend Developer based in Berlin, specialising in React, TypeScript, and Next.js."
+    "description": "Senior Product Engineer in Berlin. Frontend-led full-stack across React, TypeScript, Node.js and PostgreSQL, owning features end to end."
   },
   "nav": {
     "home": "Home",
@@ -14,9 +14,9 @@
   "home": {
     "greeting": "Hi, I'm",
     "name": "Vicky",
-    "status": "Open to Senior and Lead frontend roles · Berlin or remote",
-    "role": "Senior Frontend Developer in Berlin. React, TypeScript, and the product thinking around them.",
-    "description": "I build interfaces that are fast, clean, and enjoyable to use, across e-commerce, proptech, and developer tooling. Lately I'm deep into AI-assisted development, shipping faster without lowering the bar.",
+    "status": "Open to Senior and Lead product engineering roles · Berlin or remote",
+    "role": "Senior Product Engineer in Berlin. Frontend-led, full-stack when the product needs it.",
+    "description": "I take features from a rough problem to a shipped, measured workflow: scope the smallest version that proves the value, build it across frontend and backend, and let real usage decide what comes next. 10 years across proptech, automotive marketplaces, B2B SaaS and developer tools, with AI agents in my daily workflow.",
     "cvCta": "Download CV",
     "linkedinCta": "LinkedIn",
     "aboutTitle": "About",
