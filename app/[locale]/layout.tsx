@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -23,6 +23,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+// Runs before paint so the saved or system theme applies without a flash.
+const themeScript = `try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")}catch(e){}`;
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -30,10 +39,7 @@ const jsonLd = {
   url: "https://vickysahu.dev",
   jobTitle: "Senior Frontend Developer",
   address: { "@type": "PostalAddress", addressLocality: "Berlin", addressCountry: "DE" },
-  sameAs: [
-    "https://github.com/vickyvishalsahu",
-    "https://www.linkedin.com/in/vickyvishal/",
-  ],
+  sameAs: ["https://github.com/vickyvishalsahu", "https://www.linkedin.com/in/vickyvishal/"],
 };
 
 export async function generateMetadata({
@@ -90,11 +96,22 @@ export default async function LocaleLayout({
   const messages = (await import(`../../messages/${locale}.json`)).default;
 
   return (
-    <html lang={locale} className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html
+      lang={locale}
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable}`}
+    >
       <head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </head>
-      <body suppressHydrationWarning className="flex min-h-screen flex-col font-sans antialiased">
+      <body
+        suppressHydrationWarning
+        className="flex min-h-screen flex-col bg-bg font-sans text-fg antialiased"
+      >
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Navbar />
           <NotificationBanner />

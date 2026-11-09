@@ -8,7 +8,8 @@
   "nav": {
     "home": "Home",
     "blog": "Blog",
-    "about": "About"
+    "about": "About",
+    "toggleTheme": "Toggle dark mode"
   },
   "home": {
     "greeting": "Hi, I'm",

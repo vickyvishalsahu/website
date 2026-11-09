@@ -8,7 +8,8 @@
   "nav": {
     "home": "Startseite",
     "blog": "Blog",
-    "about": "Über mich"
+    "about": "Über mich",
+    "toggleTheme": "Dunkelmodus umschalten"
   },
   "home": {
     "greeting": "Hi, ich bin",
