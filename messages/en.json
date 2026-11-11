@@ -16,7 +16,7 @@
     "name": "Vicky",
     "status": "Open to Senior and Lead product engineering roles · Berlin or remote",
     "role": "Senior Product Engineer in Berlin. Frontend-led, full-stack when the product needs it.",
-    "description": "I take features from a rough problem to a shipped, measured workflow: scope the smallest version that proves the value, build it across frontend and backend, and let real usage decide what comes next. 10 years across proptech, automotive marketplaces, B2B SaaS and developer tools, with AI agents in my daily workflow.",
+    "description": "I take features from a rough problem to a shipped, measured workflow: scope the smallest version that proves the value, build it across frontend and backend, and let real usage decide what comes next. 10 years across proptech, automotive marketplaces, B2B SaaS and developer tools, working with AI agents like teammates: clear roles, focused context and tests as guardrails.",
     "cvCta": "Download CV",
     "linkedinCta": "LinkedIn",
     "aboutTitle": "About",
@@ -36,7 +36,7 @@
     "experience": {
       "0": {
         "role": "Senior Frontend Developer",
-        "summary": "Led the frontend team that built Green+ from scratch, a portal for property investors covering energy analysis of around 3 million m² of building space. Owned onboarding, Stripe subscriptions and the frontend-backend contract, set up the monorepo and design system, and helped shape the team's Claude Code workflow."
+        "summary": "Led the frontend team that built Green+ from scratch, a portal for property investors covering energy analysis of around 3 million m² of building space. Owned the frontend-backend contract, shipped core workflows from onboarding and Stripe subscriptions to the Measures Configurator, set up the monorepo and design system, and shaped the team's AI-native delivery workflow in Claude Code, with tests, CI and AI review on every change."
       },
       "1": {
         "role": "Frontend Developer",

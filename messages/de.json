@@ -16,7 +16,7 @@
     "name": "Vicky",
     "status": "Offen für Senior- und Lead-Rollen im Product Engineering · Berlin oder remote",
     "role": "Senior Product Engineer in Berlin. Mit Frontend-Schwerpunkt, Full-Stack, wo das Produkt es braucht.",
-    "description": "Ich bringe Features vom groben Problem bis zum ausgelieferten, gemessenen Workflow: die kleinste Version scopen, die den Wert beweist, sie über Frontend und Backend bauen und echte Nutzung entscheiden lassen, was als Nächstes kommt. 10 Jahre in Proptech, Automobil-Marktplätzen, B2B-SaaS und Developer Tools, mit KI-Agents im täglichen Workflow.",
+    "description": "Ich bringe Features vom groben Problem bis zum ausgelieferten, gemessenen Workflow: die kleinste Version scopen, die den Wert beweist, sie über Frontend und Backend bauen und echte Nutzung entscheiden lassen, was als Nächstes kommt. 10 Jahre in Proptech, Automobil-Marktplätzen, B2B-SaaS und Developer Tools, mit KI-Agents als Teammates: klare Rollen, fokussierter Kontext und Tests als Leitplanken.",
     "cvCta": "Lebenslauf herunterladen",
     "linkedinCta": "LinkedIn",
     "aboutTitle": "Über mich",
@@ -36,7 +36,7 @@
     "experience": {
       "0": {
         "role": "Senior Frontend Developer",
-        "summary": "Das Frontend-Team geleitet, das Green+ von Grund auf gebaut hat, ein Portal für Immobilieninvestoren mit Energieanalysen für rund 3 Millionen m² Gebäudefläche. Verantwortlich für Onboarding, Stripe-Abos und den Frontend-Backend-Vertrag, Monorepo und Designsystem aufgesetzt und den Claude-Code-Workflow des Teams mitgeprägt."
+        "summary": "Das Frontend-Team geleitet, das Green+ von Grund auf gebaut hat, ein Portal für Immobilieninvestoren mit Energieanalysen für rund 3 Millionen m² Gebäudefläche. Verantwortlich für den Frontend-Backend-Vertrag, zentrale Workflows von Onboarding und Stripe-Abos bis zum Measures Configurator ausgeliefert, Monorepo und Designsystem aufgesetzt und den KI-nativen Delivery-Workflow des Teams mit Claude Code geprägt, mit Tests, CI und KI-Review bei jeder Änderung."
       },
       "1": {
         "role": "Frontend Developer",
